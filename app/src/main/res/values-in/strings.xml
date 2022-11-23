@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SubmissionStoryApp_Intermediate</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="login">Masuk</string>
+    <string name="don_t_have_an_account">tidak punya akun?</string>
+    <string name="register">Daftar</string>
+    <string name="email">email</string>
+    <string name="pass_min_length">Password setidaknya berisikan 6 huruf</string>
+    <string name="name_min_length">Nama must setidaknya berisikan 4 huruf</string>
+    <string name="email_not_valid">Format email tidak sesuai</string>
+    <string name="login_button_validation">Email atau Password tidak sesuai</string>
+    <string name="login_auth_failed">Email atau Password salah</string>
+    <string name="register_success">Berhasil terdaftar, silahkan masuk ke akun</string>
+    <string name="register_failed">Email tidak valid atau sudah dipakai</string>
+    <string name="name">nama</string>
+    <string name="image_feed">Feed foto</string>
+    <string name="avatar_photo">avatar foto</string>
+    <string name="add_story">Tambah Photo</string>
+    <string name="settings">Pengaturan</string>
+    <string name="logout">Keluar akun</string>
+    <string name="description">Deskripsi :</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="uploaded_image">Gambar terunggah</string>
+    <string name="upload">Unggah</string>
+    <string name="camera_x">CameraX</string>
+    <string name="choose_photo_first">Pilih foto terlebih dahulu</string>
+    <string name="upload_desc_blank">tidak ada deskripsi.</string>
+    <string name="story_home">Beranda Cerita</string>
+    <string name="detail_story">Detail Cerita</string>
+    <string name="upload_photo">Unggah foto</string>
+    <string name="choose_a_picture">Pilih sebuah foto</string>
+    <string name="could_not_get_permission">Tidak mendapatkan akses</string>
+    <string name="upload_success">Foto berhasil di unggah</string>
+    <string name="upload_failed">Foto gagal di unggah</string>
+    <string name="empty_text">teks kosong</string>
+
+    <string name="appwidget_text">Cerita</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="not_yet_login">Masuk akun dahulu</string>
+    <string name="desc_cannot_blank">Description cannot be blank</string>
+</resources>

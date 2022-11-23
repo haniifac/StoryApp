@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feed_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    card_view:cardCornerRadius="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_img_avatar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/account_circle_48px"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/avatar_photo" />
+
+        <TextView
+            android:id="@+id/item_tv_top_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textStyle="bold"
+            card_view:layout_constraintTop_toTopOf="@id/item_img_avatar"
+            card_view:layout_constraintStart_toEndOf="@id/item_img_avatar"
+            tools:text="@tools:sample/full_names" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            card_view:layout_constraintTop_toBottomOf="@id/item_tv_top_name"
+            card_view:layout_constraintStart_toStartOf="@id/item_tv_top_name"
+            tools:text="@tools:sample/cities" />
+
+        <ImageView
+            android:id="@+id/img_feed"
+            android:transitionName="ItemImageTransition"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            card_view:layout_constraintTop_toBottomOf="@id/item_img_avatar"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            tools:src="@tools:sample/backgrounds/scenic"
+            android:contentDescription="@string/image_feed" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.UploadPhotoActivity">
+
+    <ProgressBar
+        android:id="@+id/upload_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/add_btn_upload"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:translationZ="3dp"
+        android:visibility="invisible" />
+
+
+    <ImageView
+        android:id="@+id/add_img_feed"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/placeholder_view"
+        android:contentDescription="@string/uploaded_image" />
+
+    <Button
+        android:id="@+id/add_btn_cameraX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="@id/centerGuide"
+        app:layout_constraintTop_toBottomOf="@id/add_img_feed"
+        android:text="@string/camera" />
+
+    <Button
+        android:id="@+id/add_btn_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toEndOf="@id/centerGuide"
+        app:layout_constraintTop_toTopOf="@id/add_btn_cameraX"
+        android:text="@string/gallery" />
+
+    <EditText
+        android:id="@+id/add_ed_desc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toBottomOf="@id/add_btn_cameraX"
+        app:layout_constraintBottom_toTopOf="@id/add_btn_upload"
+        android:hint="@string/description"
+        android:gravity="top"
+        android:autofillHints="description"
+        android:maxLines="2"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/add_btn_upload"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="@id/add_ed_desc"
+        app:layout_constraintStart_toStartOf="@id/add_ed_desc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/upload" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
