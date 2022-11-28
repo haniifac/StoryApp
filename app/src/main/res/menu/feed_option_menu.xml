@@ -9,6 +9,12 @@
             android:icon="@drawable/ic_outline_add_a_photo_24"
             app:showAsAction="ifRoom" />
         <item
+            android:id="@+id/menu_show_map"
+            android:title="@string/show_map"
+            android:icon="@drawable/ic_outline_add_a_photo_24"
+            app:showAsAction="ifRoom" />
+            />
+        <item
             android:id="@+id/menu_logout"
             android:title="@string/logout"
             app:showAsAction="never" />
