@@ -85,7 +85,7 @@ class StoryActivity : AppCompatActivity() {
                         Log.e(TAG, "Go to photoUploadFragment")
                     }
                     R.id.menu_show_map -> {
-                        
+
                     }
                     R.id.menu_logout -> {
                         feedViewModel.clearSession(userSession)
