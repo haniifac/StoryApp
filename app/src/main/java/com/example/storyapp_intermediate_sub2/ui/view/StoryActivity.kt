@@ -38,11 +38,9 @@ class StoryActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.story_home)
         setContentView(binding.root)
 
-        val menuHost: MenuHost = this
         userSession = this.let { SessionManager.getInstance(it.dataStore) }
 
         feedViewModel.putSession(userSession)
-//        showMenu(binding.root, menuHost, userSession)
 
         subscribeLoading()
         subscribeStories()
@@ -99,38 +97,6 @@ class StoryActivity : AppCompatActivity() {
             }
         }
     }
-
-//    private fun showMenu(view: View, menuHost: MenuHost, userSession: SessionManager) {
-//        menuHost.addMenuProvider(object : MenuProvider {
-//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-//                menuInflater.inflate(R.menu.feed_option_menu, menu)
-//            }
-//
-//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-//                when (menuItem.itemId) {
-//                    R.id.menu_add_story -> {
-//                        startUploadActivity()
-//                        Log.e(TAG, "Go to photoUploadFragment")
-//                    }
-//                    R.id.menu_show_map -> {
-//
-//                        supportFragmentManager.beginTransaction().apply {
-//                            add(R.id.story_container,MapsFragment())
-//                            addToBackStack(null)
-//                            commit()
-//                        }
-//                    }
-//                    R.id.menu_logout -> {
-//                        feedViewModel.clearSession(userSession)
-//                        Log.e(TAG, "Session deleted")
-//                        startLoginActivity()
-//                        Log.e(TAG, "Go to loginFragment")
-//                    }
-//                }
-//                return true
-//            }
-//        }, this, Lifecycle.State.RESUMED)
-//    }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
