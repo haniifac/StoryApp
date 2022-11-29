@@ -45,4 +45,9 @@
     <string name="not_yet_login">Login first</string>
     <string name="desc_cannot_blank">Description cannot be blank</string>
     <string name="show_map">Show Map</string>
+    <string name="story_map">Story Map</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
 </resources>

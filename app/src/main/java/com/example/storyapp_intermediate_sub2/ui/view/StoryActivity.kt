@@ -16,6 +16,7 @@ import androidx.core.view.MenuProvider
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp_intermediate_sub2.R
@@ -29,6 +30,7 @@ class StoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStoryBinding
     private val feedViewModel by viewModels<FeedViewModel>()
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
+    private lateinit var userSession : SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +39,40 @@ class StoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val menuHost: MenuHost = this
-        val userSession = this.let { SessionManager.getInstance(it.dataStore) }
+        userSession = this.let { SessionManager.getInstance(it.dataStore) }
 
         feedViewModel.putSession(userSession)
-        showMenu(binding.root, menuHost, userSession)
+//        showMenu(binding.root, menuHost, userSession)
 
         subscribeLoading()
         subscribeStories()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.feed_option_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_add_story -> {
+                startUploadActivity()
+                Log.e(TAG, "Go to photoUploadFragment")
+            }
+            R.id.menu_show_map -> {
+                startMapsActivity()
+                Log.e(TAG,"Goto MapsActivity")
+            }
+            R.id.menu_logout -> {
+                feedViewModel.clearSession(userSession)
+                Log.e(TAG, "Session deleted")
+                startLoginActivity()
+                Log.e(TAG, "Go to loginFragment")
+            }
+        }
+        return true
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -72,32 +100,37 @@ class StoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun showMenu(view: View, menuHost: MenuHost, userSession: SessionManager) {
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.feed_option_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.menu_add_story -> {
-                        startUploadActivity()
-                        Log.e(TAG, "Go to photoUploadFragment")
-                    }
-                    R.id.menu_show_map -> {
-
-                    }
-                    R.id.menu_logout -> {
-                        feedViewModel.clearSession(userSession)
-                        Log.e(TAG, "Session deleted")
-                        startLoginActivity()
-                        Log.e(TAG, "Go to loginFragment")
-                    }
-                }
-                return true
-            }
-        }, this, Lifecycle.State.RESUMED)
-    }
+//    private fun showMenu(view: View, menuHost: MenuHost, userSession: SessionManager) {
+//        menuHost.addMenuProvider(object : MenuProvider {
+//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+//                menuInflater.inflate(R.menu.feed_option_menu, menu)
+//            }
+//
+//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+//                when (menuItem.itemId) {
+//                    R.id.menu_add_story -> {
+//                        startUploadActivity()
+//                        Log.e(TAG, "Go to photoUploadFragment")
+//                    }
+//                    R.id.menu_show_map -> {
+//
+//                        supportFragmentManager.beginTransaction().apply {
+//                            add(R.id.story_container,MapsFragment())
+//                            addToBackStack(null)
+//                            commit()
+//                        }
+//                    }
+//                    R.id.menu_logout -> {
+//                        feedViewModel.clearSession(userSession)
+//                        Log.e(TAG, "Session deleted")
+//                        startLoginActivity()
+//                        Log.e(TAG, "Go to loginFragment")
+//                    }
+//                }
+//                return true
+//            }
+//        }, this, Lifecycle.State.RESUMED)
+//    }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -142,6 +175,10 @@ class StoryActivity : AppCompatActivity() {
 
     private fun startUploadActivity(){
         startActivity(Intent(this, UploadPhotoActivity::class.java))
+    }
+
+    private fun startMapsActivity(){
+        startActivity(Intent(this,MapsActivity::class.java))
     }
 
     private fun startLoginActivity(){
