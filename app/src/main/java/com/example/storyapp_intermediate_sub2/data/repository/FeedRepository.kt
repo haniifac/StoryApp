@@ -16,7 +16,7 @@ class FeedRepository(private val mDataStore: SessionManager, private val mApiSer
         var myMessage: String = ""
         var myList: List<ListStoryItem?>? = null
 
-        mApiService.fetchStories() // Bad Practice - Use Dependency Injection
+        mApiService.fetchStories(null,null,null) // Bad Practice - Use Dependency Injection
             .enqueue(object : Callback<StoriesResponse> {
                 override fun onResponse(
                     call: Call<StoriesResponse>,

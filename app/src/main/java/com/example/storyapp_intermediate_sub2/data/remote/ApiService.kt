@@ -22,7 +22,11 @@ interface ApiService {
     ): Call<RegisterResponse>
 
     @GET("stories")
-    fun fetchStories(): Call<StoriesResponse>
+    fun fetchStories(
+        @Query("page") page: Int?,
+        @Query("size") size: Int?,
+        @Query("location") location: Int?,
+    ): Call<StoriesResponse>
 
     @Multipart
     @POST("stories")

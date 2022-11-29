@@ -26,7 +26,7 @@ class FeedViewModel : ViewModel() {
         _isLoading.value = true
         val api = ApiConfig()
         api.setSessionToken(token)
-        api.getApiService().fetchStories() // Bad Practice - Use Dependency Injection
+        api.getApiService().fetchStories(null,null,0) // Bad Practice - Use Dependency Injection
             .enqueue(object : Callback<StoriesResponse> {
                 override fun onResponse(
                     call: Call<StoriesResponse>,
