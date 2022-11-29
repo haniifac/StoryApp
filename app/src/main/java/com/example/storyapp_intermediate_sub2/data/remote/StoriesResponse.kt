@@ -15,19 +15,19 @@ data class StoriesResponse(
 
 data class ListStoryItem(
     @field:SerializedName("id")
-    val id: String? = null,
+    val id: String,
 
     @field:SerializedName("name")
-    val name: String? = null,
+    val name: String,
 
     @field:SerializedName("description")
-    val description: String? = null,
+    val description: String,
 
     @field:SerializedName("photoUrl")
-    var photoUrl: String? = null,
+    var photoUrl: String,
 
     @field:SerializedName("createdAt")
-    val createdAt: String? = null,
+    val createdAt: String,
 
     @field:SerializedName("lat")
     val lat: Double? = null,
