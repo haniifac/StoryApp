@@ -44,40 +44,40 @@ class PhotoUploadViewModel : ViewModel() {
             requestImageFile
         )
 
+        val photoLat = location?.latitude
+        val photoLon = location?.longitude
+
         val service = ApiConfig()
         service.setSessionToken(token)
-
-        if (location != null) {
-            service.getApiService().uploadImage(imageMultipart, description, location.latitude, location.longitude)
-                .enqueue(object : Callback<UploadImageResponse> {
-                    override fun onResponse(
-                        call: Call<UploadImageResponse>,
-                        response: Response<UploadImageResponse>
-                    ) {
-                        _isLoading.value = false
-                        if (response.isSuccessful) {
-                            val responseBody = response.body()
-                            if (responseBody != null && !responseBody.error) {
-                                Log.e(TAG, "onResponse : ${responseBody.message}")
-                                _uploadResponse.value = response.body()
-    //                            Toast.makeText(this@MainActivity, responseBody.message, Toast.LENGTH_SHORT).show()
-                            }
-                        } else {
-                            Log.e(TAG, "onResponse : ${response.message()}")
+        service.getApiService().uploadImage(imageMultipart, description, photoLat, photoLon)
+            .enqueue(object : Callback<UploadImageResponse> {
+                override fun onResponse(
+                    call: Call<UploadImageResponse>,
+                    response: Response<UploadImageResponse>
+                ) {
+                    _isLoading.value = false
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null && !responseBody.error) {
+                            Log.e(TAG, "onResponse : ${responseBody.message}")
                             _uploadResponse.value = response.body()
-    //                        Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(this@MainActivity, responseBody.message, Toast.LENGTH_SHORT).show()
                         }
+                    } else {
+                        Log.e(TAG, "onResponse : ${response.message()}")
+                        _uploadResponse.value = response.body()
+//                        Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
                     }
+                }
 
-                    override fun onFailure(call: Call<UploadImageResponse>, t: Throwable) {
-                        _isLoading.value = false
-                        Log.e(TAG, "onResponse : ${t.message}")
-                        _uploadResponse.value =
-                            UploadImageResponse(true, t.message ?: "Retrofit instance failed")
-    //                    Toast.makeText(this@MainActivity, "Gagal instance Retrofit", Toast.LENGTH_SHORT).show()
-                    }
-                })
-        }
+                override fun onFailure(call: Call<UploadImageResponse>, t: Throwable) {
+                    _isLoading.value = false
+                    Log.e(TAG, "onResponse : ${t.message}")
+                    _uploadResponse.value =
+                        UploadImageResponse(true, t.message ?: "Retrofit instance failed")
+//                    Toast.makeText(this@MainActivity, "Gagal instance Retrofit", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 
     fun getToken(): String {

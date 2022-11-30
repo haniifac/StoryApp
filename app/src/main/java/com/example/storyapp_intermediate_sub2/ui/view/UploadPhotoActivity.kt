@@ -41,7 +41,7 @@ class UploadPhotoActivity : AppCompatActivity() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationManager: LocationManager
-    private var currLocation: LatLng? = null
+    private var lastLocation: LatLng? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         title = getString(R.string.upload_photo)
@@ -62,7 +62,7 @@ class UploadPhotoActivity : AppCompatActivity() {
                 REQUEST_CODE_PERMISSIONS
             )
         }
-        
+
         subscribeLoading()
         subscribeUploadImage()
 
@@ -128,6 +128,7 @@ class UploadPhotoActivity : AppCompatActivity() {
                         this, "lat= $lat, lon= $lon",
                         Toast.LENGTH_SHORT
                     ).show()
+                    lastLocation = LatLng(lat,lon)
                 }
                 .addOnFailureListener {
                     Toast.makeText(
@@ -204,17 +205,12 @@ class UploadPhotoActivity : AppCompatActivity() {
     private fun uploadImage() {
         val token = uploadPhotoViewModel.getToken()
         val desc = binding.addEdDesc.text.toString().trim()
-        var location : LatLng? = null
-
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            location = currLocation
-        }
+        var currLocation = lastLocation
 
         if (desc.isBlank()) {
             binding.addEdDesc.error = getString(R.string.desc_cannot_blank)
         }else if (getFile != null) {
-            uploadPhotoViewModel.uploadImage(getFile!!, desc, token, location)
+            uploadPhotoViewModel.uploadImage(getFile!!, desc, token, currLocation)
         }else {
             showToast(getString(R.string.choose_photo_first))
         }
