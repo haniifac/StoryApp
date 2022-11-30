@@ -9,6 +9,7 @@ import com.example.storyapp_intermediate_sub2.data.remote.ApiConfig
 import com.example.storyapp_intermediate_sub2.data.remote.UploadImageResponse
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.util.reduceFileImage
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -30,7 +31,7 @@ class PhotoUploadViewModel : ViewModel() {
     val isLoading get(): LiveData<Boolean> = _isLoading
 
 
-    fun uploadImage(getFile: File, desc: String, token: String) {
+    fun uploadImage(getFile: File, desc: String, token: String, location : LatLng?) {
         _isLoading.value = true
 
         val file = reduceFileImage(getFile as File)
@@ -46,35 +47,37 @@ class PhotoUploadViewModel : ViewModel() {
         val service = ApiConfig()
         service.setSessionToken(token)
 
-        service.getApiService().uploadImage(imageMultipart, description)
-            .enqueue(object : Callback<UploadImageResponse> {
-                override fun onResponse(
-                    call: Call<UploadImageResponse>,
-                    response: Response<UploadImageResponse>
-                ) {
-                    _isLoading.value = false
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()
-                        if (responseBody != null && !responseBody.error) {
-                            Log.e(TAG, "onResponse : ${responseBody.message}")
+        if (location != null) {
+            service.getApiService().uploadImage(imageMultipart, description, location.latitude, location.longitude)
+                .enqueue(object : Callback<UploadImageResponse> {
+                    override fun onResponse(
+                        call: Call<UploadImageResponse>,
+                        response: Response<UploadImageResponse>
+                    ) {
+                        _isLoading.value = false
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+                            if (responseBody != null && !responseBody.error) {
+                                Log.e(TAG, "onResponse : ${responseBody.message}")
+                                _uploadResponse.value = response.body()
+    //                            Toast.makeText(this@MainActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            Log.e(TAG, "onResponse : ${response.message()}")
                             _uploadResponse.value = response.body()
-//                            Toast.makeText(this@MainActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+    //                        Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
                         }
-                    } else {
-                        Log.e(TAG, "onResponse : ${response.message()}")
-                        _uploadResponse.value = response.body()
-//                        Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
                     }
-                }
 
-                override fun onFailure(call: Call<UploadImageResponse>, t: Throwable) {
-                    _isLoading.value = false
-                    Log.e(TAG, "onResponse : ${t.message}")
-                    _uploadResponse.value =
-                        UploadImageResponse(true, t.message ?: "Retrofit instance failed")
-//                    Toast.makeText(this@MainActivity, "Gagal instance Retrofit", Toast.LENGTH_SHORT).show()
-                }
-            })
+                    override fun onFailure(call: Call<UploadImageResponse>, t: Throwable) {
+                        _isLoading.value = false
+                        Log.e(TAG, "onResponse : ${t.message}")
+                        _uploadResponse.value =
+                            UploadImageResponse(true, t.message ?: "Retrofit instance failed")
+    //                    Toast.makeText(this@MainActivity, "Gagal instance Retrofit", Toast.LENGTH_SHORT).show()
+                    }
+                })
+        }
     }
 
     fun getToken(): String {
