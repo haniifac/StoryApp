@@ -41,7 +41,6 @@ class UploadPhotoActivity : AppCompatActivity() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationManager: LocationManager
-    private var gpsStatus = false
     private var currLocation: LatLng? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,9 +62,7 @@ class UploadPhotoActivity : AppCompatActivity() {
                 REQUEST_CODE_PERMISSIONS
             )
         }
-
-
-
+        
         subscribeLoading()
         subscribeUploadImage()
 
@@ -146,10 +143,9 @@ class UploadPhotoActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkGpsStatus() : Boolean{
+    private fun checkGpsStatus(): Boolean {
         locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        return gpsStatus
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
     private fun startGpsIntent(){
