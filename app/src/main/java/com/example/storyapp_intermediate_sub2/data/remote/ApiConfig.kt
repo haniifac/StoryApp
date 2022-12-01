@@ -1,10 +1,10 @@
 package com.example.storyapp_intermediate_sub2.data.remote
 
-import androidx.viewbinding.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.storyapp_intermediate_sub2.BuildConfig
 
 class ApiConfig {
     private lateinit var sessionToken: String
@@ -28,7 +28,7 @@ class ApiConfig {
         }
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://story-api.dicoding.dev/v1/")
+            .baseUrl(BuildConfig.STORY_API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

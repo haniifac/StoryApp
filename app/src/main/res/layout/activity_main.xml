@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.MainActivity">
 
-    <com.example.storyapp_intermediate_sub2.ui.view.customview.EmailEditText
+    <com.example.storyapp_intermediate_sub2.ui.customview.EmailEditText
         android:id="@+id/ed_login_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.storyapp_intermediate_sub2.ui.view.customview.PasswordEditText
+    <com.example.storyapp_intermediate_sub2.ui.customview.PasswordEditText
         android:id="@+id/ed_login_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

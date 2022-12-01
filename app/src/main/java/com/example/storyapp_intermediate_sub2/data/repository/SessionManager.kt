@@ -18,11 +18,6 @@ class SessionManager private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
-    suspend fun getName(): String {
-        val preference = dataStore.data.first()
-        return preference[USER_NAME] ?: ""
-    }
-
     suspend fun saveToken(mUserToken: String) {
         dataStore.edit {
             it[USER_TOKEN] = mUserToken
@@ -34,19 +29,12 @@ class SessionManager private constructor(private val dataStore: DataStore<Prefer
         return preference[USER_TOKEN] ?: ""
     }
 
-    fun getTokenLogin(): Flow<String> {
-        return dataStore.data.map { preferences ->
-            preferences[USER_TOKEN].toString()
-        }
-    }
-
     suspend fun clearSession() {
         dataStore.edit {
             it[USER_NAME] = ""
             it[USER_TOKEN] = ""
         }
     }
-
 
     companion object {
         @Volatile

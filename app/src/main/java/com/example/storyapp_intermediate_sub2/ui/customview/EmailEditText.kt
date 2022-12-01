@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.ui.view.customview
+package com.example.storyapp_intermediate_sub2.ui.customview
 
 import android.content.Context
 import android.graphics.Canvas
