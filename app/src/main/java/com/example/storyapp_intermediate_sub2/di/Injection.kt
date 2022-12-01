@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.util
+package com.example.storyapp_intermediate_sub2.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
