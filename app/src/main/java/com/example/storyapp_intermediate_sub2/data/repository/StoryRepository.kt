@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FeedRepository(private val mDataStore: SessionManager, private val mApiService: ApiService) {
+class StoryRepository(private val mDataStore: SessionManager, private val mApiService: ApiService) {
     fun getService() = mApiService
 
     fun fetchFeed(): StoriesResponse {

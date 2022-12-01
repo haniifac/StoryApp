@@ -5,30 +5,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.data.remote.ListStoryItem
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.databinding.ActivityStoryBinding
 import com.example.storyapp_intermediate_sub2.ui.adapter.FeedRecyclerAdapter
-import com.example.storyapp_intermediate_sub2.ui.viewmodel.FeedViewModel
+import com.example.storyapp_intermediate_sub2.ui.viewmodel.StoryViewModel
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStoryBinding
-    private val feedViewModel by viewModels<FeedViewModel>()
+    private val storyViewModel by viewModels<StoryViewModel>()
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
     private lateinit var userSession : SessionManager
 
@@ -40,7 +35,7 @@ class StoryActivity : AppCompatActivity() {
 
         userSession = this.let { SessionManager.getInstance(it.dataStore) }
 
-        feedViewModel.putSession(userSession)
+        storyViewModel.putSession(userSession)
 
         subscribeLoading()
         subscribeStories()
@@ -62,7 +57,7 @@ class StoryActivity : AppCompatActivity() {
                 Log.e(TAG,"Goto MapsActivity")
             }
             R.id.menu_logout -> {
-                feedViewModel.clearSession(userSession)
+                storyViewModel.clearSession(userSession)
                 Log.e(TAG, "Session deleted")
                 startLoginActivity()
                 Log.e(TAG, "Go to loginFragment")
@@ -79,19 +74,19 @@ class StoryActivity : AppCompatActivity() {
     }
 
     private fun fetchStory() {
-        feedViewModel.getToken().run {
-            feedViewModel.loadFeed(this)
+        storyViewModel.getToken().run {
+            storyViewModel.loadFeed(this)
         }
     }
 
     private fun subscribeLoading() {
-        feedViewModel.isLoading.observe(this) {
+        storyViewModel.isLoading.observe(this) {
             showLoading(it)
         }
     }
 
     private fun subscribeStories() {
-        feedViewModel.storiesResponse.observe(this) { storyResponse ->
+        storyViewModel.storiesResponse.observe(this) { storyResponse ->
             if (storyResponse != null) {
                 storyResponse.listStory?.let { storyItem -> showRecyclerItem(storyItem) }
             }

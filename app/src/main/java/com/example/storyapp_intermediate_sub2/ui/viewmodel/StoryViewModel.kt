@@ -13,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FeedViewModel : ViewModel() {
+class StoryViewModel : ViewModel() {
     private lateinit var sessionManager: SessionManager
 
     private var _isLoading = MutableLiveData<Boolean>()
