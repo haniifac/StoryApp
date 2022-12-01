@@ -1,5 +1,6 @@
 package com.example.storyapp_intermediate_sub2.data.repository
 
+import com.example.storyapp_intermediate_sub2.data.local.StoryDatabase
 import com.example.storyapp_intermediate_sub2.data.remote.ApiService
 import com.example.storyapp_intermediate_sub2.data.remote.ListStoryItem
 import com.example.storyapp_intermediate_sub2.data.remote.StoriesResponse
@@ -8,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class StoryRepository(private val mDataStore: SessionManager, private val mApiService: ApiService) {
+class StoryRepository(private val mDataStore: SessionManager, private val mApiService: ApiService, mDatabase: StoryDatabase) {
     fun getService() = mApiService
 
     fun fetchFeed(): StoriesResponse {
