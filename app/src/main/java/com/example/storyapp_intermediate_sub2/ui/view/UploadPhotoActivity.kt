@@ -72,8 +72,10 @@ class UploadPhotoActivity : AppCompatActivity() {
         binding.swLocation.setOnCheckedChangeListener { thisButton, isChecked ->
             if (isChecked){
                 requestLocationPermission()
-                if(checkGpsStatus()){
+                if(checkGpsStatus()) {
                     getCurrentLocation()
+                }else if(lastLocation == null && checkGpsStatus()){
+                    thisButton.isChecked = false
                 }else{
                     showGpsAlertDialog()
                     thisButton.isChecked = false
@@ -122,13 +124,15 @@ class UploadPhotoActivity : AppCompatActivity() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     // getting the last known or current location
-                    val lat = location.latitude
-                    val lon = location.longitude
-                    Toast.makeText(
-                        this, "lat= $lat, lon= $lon",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    lastLocation = LatLng(lat,lon)
+                    if(location != null){
+                        val lat = location.latitude
+                        val lon = location.longitude
+                        Toast.makeText(
+                            this, "lat= $lat, lon= $lon",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        lastLocation = LatLng(lat,lon)
+                    }
                 }
                 .addOnFailureListener {
                     Toast.makeText(
