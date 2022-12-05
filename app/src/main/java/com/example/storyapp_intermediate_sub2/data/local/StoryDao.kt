@@ -10,11 +10,11 @@ import androidx.room.Query
 interface StoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStory(vararg story: Story)
+    suspend fun insertStory(vararg story: StoryEntity)
 
 
     @Query("SELECT * FROM story")
-    fun getAllStories(): PagingSource<Int, Story>
+    fun getAllStories(): PagingSource<Int, StoryEntity>
 
     @Query("DELETE FROM story")
     fun deleteAll()

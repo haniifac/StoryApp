@@ -14,10 +14,9 @@ data class StoriesResponse(
     @field:SerializedName("listStory")
     val listStory: List<ListStoryItem?>? = null,
 )
-@Entity(tableName = "story")
+
 data class ListStoryItem(
 
-    @PrimaryKey
     @field:SerializedName("id")
     val id: String,
 
