@@ -32,6 +32,13 @@ interface ApiService {
         @Query("location") location: Int?,
     ): Call<StoriesResponse>
 
+    @GET("stories")
+    suspend fun fetchPagingStories(
+        @Query("page") page: Int?,
+        @Query("size") size: Int?,
+        @Query("location") location: Int?,
+    ): StoriesResponse
+
     @Multipart
     @POST("stories")
     fun uploadImage(

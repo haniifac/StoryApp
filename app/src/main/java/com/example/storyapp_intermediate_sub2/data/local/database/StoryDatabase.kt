@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.storyapp_intermediate_sub2.data.local.dao.StoryDao
 import com.example.storyapp_intermediate_sub2.data.local.entity.RemoteKeys
 import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
 import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
@@ -14,6 +15,9 @@ import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
     exportSchema = false
 )
 abstract class StoryDatabase: RoomDatabase() {
+
+    abstract fun storyDao(): StoryDao
+
     companion object {
         @Volatile
         private var INSTANCE: StoryDatabase? = null

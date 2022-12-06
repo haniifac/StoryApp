@@ -13,7 +13,6 @@ interface StoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStory(vararg story: StoryEntity)
 
-
     @Query("SELECT * FROM story")
     fun getAllStories(): PagingSource<Int, StoryEntity>
 
