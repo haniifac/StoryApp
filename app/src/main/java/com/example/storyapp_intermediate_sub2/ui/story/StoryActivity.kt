@@ -18,7 +18,7 @@ import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.databinding.ActivityStoryBinding
-import com.example.storyapp_intermediate_sub2.ui.login.FeedRecyclerAdapter
+import com.example.storyapp_intermediate_sub2.data.adapter.FeedRecyclerAdapter
 import com.example.storyapp_intermediate_sub2.ui.detailstory.DetailStoryActivity
 import com.example.storyapp_intermediate_sub2.ui.login.MainActivity
 import com.example.storyapp_intermediate_sub2.ui.map.MapsActivity
