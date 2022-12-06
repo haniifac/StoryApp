@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.ui.adapter
+package com.example.storyapp_intermediate_sub2.ui.login
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

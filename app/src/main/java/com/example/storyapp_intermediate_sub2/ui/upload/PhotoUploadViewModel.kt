@@ -1,12 +1,12 @@
-package com.example.storyapp_intermediate_sub2.ui.viewmodel
+package com.example.storyapp_intermediate_sub2.ui.upload
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.storyapp_intermediate_sub2.data.remote.ApiConfig
-import com.example.storyapp_intermediate_sub2.data.remote.UploadImageResponse
+import com.example.storyapp_intermediate_sub2.data.remote.retrofit.ApiConfig
+import com.example.storyapp_intermediate_sub2.data.remote.response.UploadImageResponse
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.util.reduceFileImage
 import com.google.android.gms.maps.model.LatLng

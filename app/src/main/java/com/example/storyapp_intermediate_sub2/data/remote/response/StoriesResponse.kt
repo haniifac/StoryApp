@@ -1,7 +1,5 @@
-package com.example.storyapp_intermediate_sub2.data.remote
+package com.example.storyapp_intermediate_sub2.data.remote.response
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class StoriesResponse(
@@ -12,11 +10,10 @@ data class StoriesResponse(
     val message: String,
 
     @field:SerializedName("listStory")
-    val listStory: List<ListStoryItem?>? = null,
+    val listStory: List<ListStoryItem>
 )
 
 data class ListStoryItem(
-
     @field:SerializedName("id")
     val id: String,
 

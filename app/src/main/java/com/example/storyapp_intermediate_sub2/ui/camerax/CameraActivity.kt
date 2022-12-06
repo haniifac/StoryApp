@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.ui.view
+package com.example.storyapp_intermediate_sub2.ui.camerax
 
 import android.content.Intent
 import android.os.Build
@@ -14,6 +14,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.example.storyapp_intermediate_sub2.databinding.ActivityCameraBinding
+import com.example.storyapp_intermediate_sub2.ui.upload.UploadPhotoActivity
 import com.example.storyapp_intermediate_sub2.util.createFile
 
 class CameraActivity : AppCompatActivity() {

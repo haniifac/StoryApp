@@ -1,10 +1,10 @@
-package com.example.storyapp_intermediate_sub2.ui.viewmodel
+package com.example.storyapp_intermediate_sub2.ui.login
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.storyapp_intermediate_sub2.data.remote.ApiConfig
-import com.example.storyapp_intermediate_sub2.data.remote.LoginResponse
-import com.example.storyapp_intermediate_sub2.data.remote.LoginResult
+import com.example.storyapp_intermediate_sub2.data.remote.retrofit.ApiConfig
+import com.example.storyapp_intermediate_sub2.data.remote.response.LoginResponse
+import com.example.storyapp_intermediate_sub2.data.remote.response.LoginResult
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import kotlinx.coroutines.launch
 import retrofit2.Call

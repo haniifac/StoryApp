@@ -1,10 +1,11 @@
-package com.example.storyapp_intermediate_sub2.ui.view
+package com.example.storyapp_intermediate_sub2.ui.detailstory
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.databinding.ActivityDetailStoryBinding
+import com.example.storyapp_intermediate_sub2.ui.story.StoryActivity
 
 class DetailStoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDetailStoryBinding

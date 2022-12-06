@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.storyapp_intermediate_sub2.data.local.StoryDatabase
-import com.example.storyapp_intermediate_sub2.data.remote.ApiConfig
+import com.example.storyapp_intermediate_sub2.data.local.database.StoryDatabase
+import com.example.storyapp_intermediate_sub2.data.remote.retrofit.ApiConfig
 import com.example.storyapp_intermediate_sub2.data.repository.StoryRepository
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import kotlinx.coroutines.runBlocking

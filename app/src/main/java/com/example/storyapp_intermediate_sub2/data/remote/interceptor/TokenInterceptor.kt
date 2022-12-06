@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.data.remote
+package com.example.storyapp_intermediate_sub2.data.remote.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response

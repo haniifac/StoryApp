@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.ui.view
+package com.example.storyapp_intermediate_sub2.ui.story
 
 import android.content.Context
 import android.content.Intent
@@ -15,11 +15,14 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp_intermediate_sub2.R
-import com.example.storyapp_intermediate_sub2.data.remote.ListStoryItem
+import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.databinding.ActivityStoryBinding
-import com.example.storyapp_intermediate_sub2.ui.adapter.FeedRecyclerAdapter
-import com.example.storyapp_intermediate_sub2.ui.viewmodel.StoryViewModel
+import com.example.storyapp_intermediate_sub2.ui.login.FeedRecyclerAdapter
+import com.example.storyapp_intermediate_sub2.ui.detailstory.DetailStoryActivity
+import com.example.storyapp_intermediate_sub2.ui.login.MainActivity
+import com.example.storyapp_intermediate_sub2.ui.map.MapsActivity
+import com.example.storyapp_intermediate_sub2.ui.upload.UploadPhotoActivity
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStoryBinding
@@ -139,7 +142,7 @@ class StoryActivity : AppCompatActivity() {
     }
 
     private fun startMapsActivity(){
-        startActivity(Intent(this,MapsActivity::class.java))
+        startActivity(Intent(this, MapsActivity::class.java))
     }
 
     private fun startLoginActivity(){

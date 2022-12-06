@@ -1,10 +1,11 @@
-package com.example.storyapp_intermediate_sub2.data.local
+package com.example.storyapp_intermediate_sub2.data.local.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
 
 @Dao
 interface StoryDao {

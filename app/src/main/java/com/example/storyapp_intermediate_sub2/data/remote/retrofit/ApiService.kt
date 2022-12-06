@@ -1,5 +1,9 @@
-package com.example.storyapp_intermediate_sub2.data.remote
+package com.example.storyapp_intermediate_sub2.data.remote.retrofit
 
+import com.example.storyapp_intermediate_sub2.data.remote.response.LoginResponse
+import com.example.storyapp_intermediate_sub2.data.remote.response.RegisterResponse
+import com.example.storyapp_intermediate_sub2.data.remote.response.StoriesResponse
+import com.example.storyapp_intermediate_sub2.data.remote.response.UploadImageResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

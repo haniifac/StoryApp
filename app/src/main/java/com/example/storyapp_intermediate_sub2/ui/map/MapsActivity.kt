@@ -1,40 +1,28 @@
-package com.example.storyapp_intermediate_sub2.ui.view
+package com.example.storyapp_intermediate_sub2.ui.map
 
 import com.example.storyapp_intermediate_sub2.R
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.storyapp_intermediate_sub2.data.remote.ListStoryItem
+import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.databinding.ActivityMapsBinding
-import com.example.storyapp_intermediate_sub2.ui.viewmodel.MapsViewModel
 
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 

@@ -1,11 +1,11 @@
-package com.example.storyapp_intermediate_sub2.ui.viewmodel
+package com.example.storyapp_intermediate_sub2.ui.register
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.storyapp_intermediate_sub2.data.remote.ApiConfig
-import com.example.storyapp_intermediate_sub2.data.remote.RegisterResponse
+import com.example.storyapp_intermediate_sub2.data.remote.retrofit.ApiConfig
+import com.example.storyapp_intermediate_sub2.data.remote.response.RegisterResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

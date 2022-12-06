@@ -1,10 +1,11 @@
-package com.example.storyapp_intermediate_sub2.data.remote
+package com.example.storyapp_intermediate_sub2.data.remote.retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.storyapp_intermediate_sub2.BuildConfig
+import com.example.storyapp_intermediate_sub2.data.remote.interceptor.TokenInterceptor
 
 class ApiConfig {
     private lateinit var sessionToken: String

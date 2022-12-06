@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.ui.view
+package com.example.storyapp_intermediate_sub2.ui.register
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.databinding.ActivityRegisterBinding
-import com.example.storyapp_intermediate_sub2.ui.viewmodel.RegisterViewModel
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding : ActivityRegisterBinding

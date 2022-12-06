@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.ui.view
+package com.example.storyapp_intermediate_sub2.ui.upload
 
 import android.Manifest
 import android.content.Context
@@ -24,7 +24,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.databinding.ActivityUploadPhotoBinding
-import com.example.storyapp_intermediate_sub2.ui.viewmodel.PhotoUploadViewModel
+import com.example.storyapp_intermediate_sub2.ui.camerax.CameraActivity
 import com.example.storyapp_intermediate_sub2.util.bitmapToFile
 import com.example.storyapp_intermediate_sub2.util.rotateBitmap
 import com.example.storyapp_intermediate_sub2.util.uriToFile
@@ -115,7 +115,8 @@ class UploadPhotoActivity : AppCompatActivity() {
         if (!isLocationPermissionAllowed()) {
             // request permission
             ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQ_CODE)
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQ_CODE
+            )
         }
     }
 

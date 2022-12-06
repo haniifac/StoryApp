@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.ui.view
+package com.example.storyapp_intermediate_sub2.ui.login
 
 import android.content.Context
 import android.content.Intent
@@ -15,7 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.databinding.ActivityMainBinding
-import com.example.storyapp_intermediate_sub2.ui.viewmodel.LoginViewModel
+import com.example.storyapp_intermediate_sub2.ui.register.RegisterActivity
+import com.example.storyapp_intermediate_sub2.ui.story.StoryActivity
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {

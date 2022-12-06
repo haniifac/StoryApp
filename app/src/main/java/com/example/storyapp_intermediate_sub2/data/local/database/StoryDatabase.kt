@@ -1,13 +1,14 @@
-package com.example.storyapp_intermediate_sub2.data.local
+package com.example.storyapp_intermediate_sub2.data.local.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.storyapp_intermediate_sub2.data.remote.ListStoryItem
+import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
+import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
 
 @Database(
-    entities = [ListStoryItem::class],
+    entities = [StoryEntity::class],
     version = 1,
     exportSchema = false
 )

@@ -1,4 +1,4 @@
-package com.example.storyapp_intermediate_sub2.data.local
+package com.example.storyapp_intermediate_sub2.data.local.entity
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -14,6 +14,7 @@ data class StoryEntity(
     val id: String,
 
     val name: String,
+
     val description: String,
 
     @ColumnInfo(name = "photo_url")
@@ -23,6 +24,7 @@ data class StoryEntity(
     val createdAt: String,
 
     val lat: Double?,
+
     val lon: Double?
 ) : Parcelable
 
