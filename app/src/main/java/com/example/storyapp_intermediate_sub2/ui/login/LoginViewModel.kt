@@ -50,6 +50,29 @@ class LoginViewModel : ViewModel() {
             })
     }
 
+    fun pLogin(email: String, password: String): LiveData<LoginResponse?>{
+        val loginResponse = MutableLiveData<LoginResponse?>()
+        _isLoading.value = true
+
+        ApiConfig().getApiService()
+            .login(email, password) // Bad Practice - Use Dependency Injection
+            .enqueue(object : Callback<LoginResponse> {
+                override fun onResponse(
+                    call: Call<LoginResponse>,
+                    response: Response<LoginResponse>
+                ) {
+                    _isLoading.value = false
+                    val responseBody = response.body()
+                    loginResponse.value = responseBody
+                }
+
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    _isLoading.value = false
+                }
+            })
+        return loginResponse
+    }
+
     fun putSession(sessionManager: SessionManager) {
         this.sessionManager = sessionManager
     }

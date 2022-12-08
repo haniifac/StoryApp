@@ -33,7 +33,38 @@ class MainActivity : AppCompatActivity() {
         val userSession = this.let { SessionManager.getInstance(it.dataStore) }
         loginViewModel.putSession(userSession)
 
+        sessionCheck()
 
+        setButtonListner()
+
+        observeLoading()
+
+//        observeLoginResult()
+
+//        observeLoginResponseMessage()
+
+    }
+
+    private fun setButtonListner(){
+        binding.btnGotoRegister.setOnClickListener {
+            startRegisterActivity()
+        }
+
+        binding.btnLogin.setOnClickListener {
+            val inputCheck = binding.edLoginEmail.isEmailValid && binding.edLoginPassword.isPassValid
+            val userEmail = binding.edLoginEmail.text.toString().trim()
+            val userPass = binding.edLoginPassword.text.toString().trim()
+
+            if (inputCheck) {
+//                loginViewModel.postLogin(userEmail, userPass)
+                postLogin(userEmail, userPass)
+            } else {
+                showToast(getString(R.string.login_button_validation))
+            }
+        }
+    }
+
+    private fun sessionCheck(){
         this.lifecycleScope.launch {
             Log.e(TAG, "Token = ${loginViewModel.getToken()}")
             val token = loginViewModel.getToken()
@@ -42,18 +73,39 @@ class MainActivity : AppCompatActivity() {
                 Log.e(TAG, "getSession: go to FeedFragment")
             }
         }
+    }
 
+    private fun postLogin(email: String, pass: String){
+        loginViewModel.pLogin(email, pass).observe(this){
+            if (it != null) {
+                if(!it.error){
+                    Log.e(TAG, "login success: goto FeedFragment")
+                    loginViewModel.saveSession(it.loginResult.token, it.loginResult.name)
+                    startStoryActivity()
+                }
+            }else{
+                Log.e(TAG, "Login Failed")
+                showToast(getString(R.string.login_auth_failed))
+            }
+        }
+    }
+
+    private fun observeLoading(){
         loginViewModel.isLoading.observe(this) {
             showLoading(it)
         }
+    }
 
+    private fun observeLoginResult(){
         loginViewModel.loginResult.observe(this) {
             if (it != null) {
                 Log.e(TAG, "${it.name} ${it.token}")
                 loginViewModel.saveSession(it.token, it.name)
             }
         }
+    }
 
+    private fun observeLoginResponseMessage(){
         loginViewModel.loginResponseMessage.observe(this) {
             if (it != null) {
                 Log.e(TAG, it.toString())
@@ -65,23 +117,6 @@ class MainActivity : AppCompatActivity() {
                     showToast(getString(R.string.login_auth_failed))
                 }
             }
-        }
-
-        binding.btnLogin.setOnClickListener {
-            val inputCheck =
-                binding.edLoginEmail.isEmailValid && binding.edLoginPassword.isPassValid
-            val userEmail = binding.edLoginEmail.text.toString().trim()
-            val userPass = binding.edLoginPassword.text.toString().trim()
-
-            if (inputCheck) {
-                loginViewModel.postLogin(userEmail, userPass)
-            } else {
-                showToast(getString(R.string.login_button_validation))
-            }
-        }
-
-        binding.btnGotoRegister.setOnClickListener {
-            startRegisterActivity()
         }
     }
 

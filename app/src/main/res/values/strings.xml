@@ -16,7 +16,7 @@
     <string name="pass_min_length">Password must at least 6 letter</string>
     <string name="name_min_length">Name must at least 4 letter</string>
     <string name="email_not_valid">Email format is not valid</string>
-    <string name="login_button_validation">Email or Password is not valid</string>
+    <string name="login_button_validation">Email or Password format is not valid</string>
     <string name="login_auth_failed">Incorrect Email or Password</string>
     <string name="register_success">Successfully registered. Please Login.</string>
     <string name="register_failed">Email is invalid or already taken.</string>
