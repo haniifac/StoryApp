@@ -41,7 +41,9 @@ class StoryActivity : AppCompatActivity() {
         storyViewModel.putSession(userSession)
 
         subscribeLoading()
-        subscribeStories()
+//        subscribeStories()
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -73,7 +75,7 @@ class StoryActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.e(TAG, "onResume: fetch story")
-        fetchStory()
+//        fetchStory()
     }
 
     private fun fetchStory() {
@@ -116,24 +118,24 @@ class StoryActivity : AppCompatActivity() {
     }
 
     private fun showRecyclerItem(stories: List<ListStoryItem?>) {
-        val listItem = ArrayList<ListStoryItem>()
-        for (item in stories) {
-            if (item != null) {
-                listItem.add(item)
-            }
-        }
-        val adapter = FeedRecyclerAdapter(listItem)
-        binding.feedRv.layoutManager = LinearLayoutManager(this)
-        binding.feedRv.adapter = adapter
-
-        adapter.setOnItemClickCallback(object : FeedRecyclerAdapter.OnItemClickCallback {
-            override fun onItemClicked(
-                story: ListStoryItem,
-                holder: FeedRecyclerAdapter.FeedViewHolder
-            ) {
-                showSelectedStory(story, holder)
-            }
-        })
+//        val listItem = ArrayList<ListStoryItem>()
+//        for (item in stories) {
+//            if (item != null) {
+//                listItem.add(item)
+//            }
+//        }
+//        val adapter = FeedRecyclerAdapter(listItem)
+//        binding.feedRv.layoutManager = LinearLayoutManager(this)
+//        binding.feedRv.adapter = adapter
+//
+//        adapter.setOnItemClickCallback(object : FeedRecyclerAdapter.OnItemClickCallback {
+//            override fun onItemClicked(
+//                story: ListStoryItem,
+//                holder: FeedRecyclerAdapter.FeedViewHolder
+//            ) {
+//                showSelectedStory(story, holder)
+//            }
+//        })
 
     }
 
