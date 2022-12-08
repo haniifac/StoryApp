@@ -11,7 +11,7 @@ import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
 interface StoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStory(vararg story: StoryEntity)
+    suspend fun insertStory(story: StoryEntity)
 
     @Query("SELECT * FROM story")
     fun getAllStories(): PagingSource<Int, StoryEntity>
