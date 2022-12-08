@@ -45,34 +45,13 @@ class StoryActivity : AppCompatActivity() {
         storyViewModel.putSession(userSession)
 
         subscribeLoading()
-//        subscribeStories()
 
         binding.feedRv.layoutManager = LinearLayoutManager(this)
-        getData()
     }
 
-    private fun getData() {
-        val adapter = StoryRecyclerAdapter()
-        binding.feedRv.adapter = adapter.withLoadStateFooter(
-            footer = LoadingStateAdapter {
-                adapter.retry()
-            }
-        )
-
-        adapter.setOnItemClickCallback(object : StoryRecyclerAdapter.OnItemClickCallback{
-            override fun onItemClicked(
-                story: StoryEntity,
-                holder: StoryRecyclerAdapter.ViewHolder
-            ) {
-                showSelectedStory(story)
-            }
-
-        })
-
-
-        storyViewModel.getAllStories().observe(this) {
-            adapter.submitData(lifecycle, it)
-        }
+    override fun onResume() {
+        super.onResume()
+        getData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -100,29 +79,31 @@ class StoryActivity : AppCompatActivity() {
         return true
     }
 
+    private fun getData() {
+        val adapter = StoryRecyclerAdapter()
+        binding.feedRv.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
 
-    private fun fetchStory() {
-//        storyViewModel.getToken().run {
-//            storyViewModel.loadFeed(this)
-//        }
+        adapter.setOnItemClickCallback(object : StoryRecyclerAdapter.OnItemClickCallback{
+            override fun onItemClicked(story: StoryEntity, holder: StoryRecyclerAdapter.ViewHolder
+            ) {
+                showSelectedStory(story)
+            }
+        })
+
+
+        storyViewModel.getAllStories().observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
     }
 
     private fun subscribeLoading() {
         storyViewModel.isLoading.observe(this) {
             showLoading(it)
         }
-    }
-
-    private fun subscribeStories() {
-        storyViewModel.storiesResponse.observe(this) { storyResponse ->
-            if (storyResponse != null) {
-                storyResponse.listStory?.let { storyItem -> showRecyclerItem(storyItem) }
-            }
-        }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -135,28 +116,6 @@ class StoryActivity : AppCompatActivity() {
             putExtra(EXTRA_IMG_URL,story.photoUrl.toString())
             putExtra(EXTRA_DESCRIPTION,story.description.toString())
         })
-    }
-
-    private fun showRecyclerItem(stories: List<ListStoryItem?>) {
-//        val listItem = ArrayList<ListStoryItem>()
-//        for (item in stories) {
-//            if (item != null) {
-//                listItem.add(item)
-//            }
-//        }
-//        val adapter = FeedRecyclerAdapter(listItem)
-//        binding.feedRv.layoutManager = LinearLayoutManager(this)
-//        binding.feedRv.adapter = adapter
-//
-//        adapter.setOnItemClickCallback(object : FeedRecyclerAdapter.OnItemClickCallback {
-//            override fun onItemClicked(
-//                story: ListStoryItem,
-//                holder: FeedRecyclerAdapter.FeedViewHolder
-//            ) {
-//                showSelectedStory(story, holder)
-//            }
-//        })
-
     }
 
     private fun startUploadActivity(){

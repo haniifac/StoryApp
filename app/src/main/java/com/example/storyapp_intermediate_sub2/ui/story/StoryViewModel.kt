@@ -23,43 +23,8 @@ class StoryViewModel(private val storyRepository: StoryRepository) : ViewModel()
     private var _isLoading = MutableLiveData<Boolean>()
     val isLoading get(): LiveData<Boolean> = _isLoading
 
-    private var _storiesResponse = MutableLiveData<StoriesResponse?>()
-    val storiesResponse: LiveData<StoriesResponse?> get() = _storiesResponse
-
-//    val story: LiveData<PagingData<StoryEntity>> =
-//        storyRepository.fetchPagingStory().cachedIn(viewModelScope)
-
     fun getAllStories(): LiveData<PagingData<StoryEntity>> =
         storyRepository.fetchPagingStory().cachedIn(viewModelScope)
-
-    fun loadFeed(token: String) {
-        _isLoading.value = true
-        val api = ApiConfig()
-        api.setSessionToken(token)
-        api.getApiService().fetchStories(null,null,0) // Bad Practice - Use Dependency Injection
-            .enqueue(object : Callback<StoriesResponse> {
-                override fun onResponse(
-                    call: Call<StoriesResponse>,
-                    response: Response<StoriesResponse>
-                ) {
-                    _isLoading.value = false
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()
-                        if (responseBody != null) {
-                            Log.e(TAG, "onResponse : ${responseBody.message}")
-                            _storiesResponse.value = responseBody
-                        }
-                    } else {
-                        Log.e(TAG, "onResponse: ${response.message()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<StoriesResponse>, t: Throwable) {
-                    _isLoading.value = false
-                    Log.e(TAG, "onFailure: ${t.message}")
-                }
-            })
-    }
 
     fun getToken(): String {
         var token: String = ""
