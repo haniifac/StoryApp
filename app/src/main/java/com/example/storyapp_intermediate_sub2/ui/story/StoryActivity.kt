@@ -19,14 +19,17 @@ import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.databinding.ActivityStoryBinding
 import com.example.storyapp_intermediate_sub2.data.adapter.FeedRecyclerAdapter
+import com.example.storyapp_intermediate_sub2.data.adapter.LoadingStateAdapter
+import com.example.storyapp_intermediate_sub2.data.adapter.StoryRecyclerAdapter
 import com.example.storyapp_intermediate_sub2.ui.detailstory.DetailStoryActivity
 import com.example.storyapp_intermediate_sub2.ui.login.MainActivity
 import com.example.storyapp_intermediate_sub2.ui.map.MapsActivity
 import com.example.storyapp_intermediate_sub2.ui.upload.UploadPhotoActivity
+import com.example.storyapp_intermediate_sub2.util.ViewModelFactory
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStoryBinding
-    private val storyViewModel by viewModels<StoryViewModel>()
+    private val storyViewModel: StoryViewModel by viewModels { ViewModelFactory(this)}
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
     private lateinit var userSession : SessionManager
 
@@ -43,7 +46,23 @@ class StoryActivity : AppCompatActivity() {
         subscribeLoading()
 //        subscribeStories()
 
+        binding.feedRv.layoutManager = LinearLayoutManager(this)
+        Log.e(TAG, "getData")
+        getData()
 
+
+    }
+
+    private fun getData() {
+        val adapter = StoryRecyclerAdapter()
+        binding.feedRv.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+        storyViewModel.getAllStories().observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -72,16 +91,10 @@ class StoryActivity : AppCompatActivity() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        Log.e(TAG, "onResume: fetch story")
-//        fetchStory()
-    }
-
     private fun fetchStory() {
-        storyViewModel.getToken().run {
-            storyViewModel.loadFeed(this)
-        }
+//        storyViewModel.getToken().run {
+//            storyViewModel.loadFeed(this)
+//        }
     }
 
     private fun subscribeLoading() {

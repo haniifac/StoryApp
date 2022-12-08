@@ -1,5 +1,6 @@
 package com.example.storyapp_intermediate_sub2.data.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -31,10 +32,14 @@ class StoryRecyclerAdapter: PagingDataAdapter<StoryEntity, StoryRecyclerAdapter.
     inner class ViewHolder(private val binding: FeedItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: StoryEntity) {
+
+            Log.e(TAG, data.toString())
+
             binding.itemTvTopName.text = data.name
             Glide.with(itemView.context)
                 .load(data.photoUrl)
                 .placeholder(R.drawable.placeholder_view)
+                .error(R.drawable.no_image)
                 .into(binding.imgFeed)
         }
     }
@@ -49,5 +54,7 @@ class StoryRecyclerAdapter: PagingDataAdapter<StoryEntity, StoryRecyclerAdapter.
                 return oldItem == newItem
             }
         }
+
+        private const val TAG = "StoryRecyclerAdapter"
     }
 }

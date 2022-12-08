@@ -27,6 +27,7 @@ class StoryRemoteMediator(
                 if (loadType == LoadType.REFRESH) {
                     database.storyDao().deleteAll()
                 }
+
                 responseData.listStory.forEach { item ->
                     database.storyDao().insertStory(
                         StoryEntity(
