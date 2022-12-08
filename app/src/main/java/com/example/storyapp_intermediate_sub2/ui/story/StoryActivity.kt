@@ -21,6 +21,7 @@ import com.example.storyapp_intermediate_sub2.databinding.ActivityStoryBinding
 import com.example.storyapp_intermediate_sub2.data.adapter.FeedRecyclerAdapter
 import com.example.storyapp_intermediate_sub2.data.adapter.LoadingStateAdapter
 import com.example.storyapp_intermediate_sub2.data.adapter.StoryRecyclerAdapter
+import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
 import com.example.storyapp_intermediate_sub2.ui.detailstory.DetailStoryActivity
 import com.example.storyapp_intermediate_sub2.ui.login.MainActivity
 import com.example.storyapp_intermediate_sub2.ui.map.MapsActivity
@@ -57,6 +58,18 @@ class StoryActivity : AppCompatActivity() {
                 adapter.retry()
             }
         )
+
+        adapter.setOnItemClickCallback(object : StoryRecyclerAdapter.OnItemClickCallback{
+            override fun onItemClicked(
+                story: StoryEntity,
+                holder: StoryRecyclerAdapter.ViewHolder
+            ) {
+                showSelectedStory(story)
+            }
+
+        })
+
+
         storyViewModel.getAllStories().observe(this) {
             adapter.submitData(lifecycle, it)
         }
@@ -116,10 +129,7 @@ class StoryActivity : AppCompatActivity() {
         binding.feedProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun showSelectedStory(
-        story: ListStoryItem,
-        holder: FeedRecyclerAdapter.FeedViewHolder
-    ) {
+    private fun showSelectedStory(story: StoryEntity) {
         startActivity(Intent(this, DetailStoryActivity::class.java).apply {
             putExtra(EXTRA_NAME,story.name.toString())
             putExtra(EXTRA_IMG_URL,story.photoUrl.toString())

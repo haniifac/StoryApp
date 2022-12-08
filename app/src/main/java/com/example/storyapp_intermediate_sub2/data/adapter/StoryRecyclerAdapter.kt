@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
+import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
 import com.example.storyapp_intermediate_sub2.databinding.FeedItemBinding
 
 /** adapter dari recycler yang ada di story
@@ -16,6 +17,7 @@ import com.example.storyapp_intermediate_sub2.databinding.FeedItemBinding
  */
 
 class StoryRecyclerAdapter: PagingDataAdapter<StoryEntity, StoryRecyclerAdapter.ViewHolder>(DIFF_CALLBACK) {
+    private lateinit var onItemClickCallback: StoryRecyclerAdapter.OnItemClickCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = FeedItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,6 +28,9 @@ class StoryRecyclerAdapter: PagingDataAdapter<StoryEntity, StoryRecyclerAdapter.
         val data = getItem(position)
         if (data != null) {
             holder.bind(data)
+            holder.itemView.setOnClickListener {
+                onItemClickCallback.onItemClicked(data, holder)
+            }
         }
     }
 
@@ -42,6 +47,14 @@ class StoryRecyclerAdapter: PagingDataAdapter<StoryEntity, StoryRecyclerAdapter.
                 .error(R.drawable.no_image)
                 .into(binding.imgFeed)
         }
+    }
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(story: StoryEntity, holder: StoryRecyclerAdapter.ViewHolder)
     }
 
     companion object {
