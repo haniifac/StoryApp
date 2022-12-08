@@ -34,15 +34,8 @@ class MainActivity : AppCompatActivity() {
         loginViewModel.putSession(userSession)
 
         sessionCheck()
-
         setButtonListner()
-
         observeLoading()
-
-//        observeLoginResult()
-
-//        observeLoginResponseMessage()
-
     }
 
     private fun setButtonListner(){
@@ -56,7 +49,6 @@ class MainActivity : AppCompatActivity() {
             val userPass = binding.edLoginPassword.text.toString().trim()
 
             if (inputCheck) {
-//                loginViewModel.postLogin(userEmail, userPass)
                 postLogin(userEmail, userPass)
             } else {
                 showToast(getString(R.string.login_button_validation))
@@ -95,31 +87,6 @@ class MainActivity : AppCompatActivity() {
             showLoading(it)
         }
     }
-
-    private fun observeLoginResult(){
-        loginViewModel.loginResult.observe(this) {
-            if (it != null) {
-                Log.e(TAG, "${it.name} ${it.token}")
-                loginViewModel.saveSession(it.token, it.name)
-            }
-        }
-    }
-
-    private fun observeLoginResponseMessage(){
-        loginViewModel.loginResponseMessage.observe(this) {
-            if (it != null) {
-                Log.e(TAG, it.toString())
-                if (it == SUCCESS) {
-                    startStoryActivity()
-                    Log.e(TAG, "loginResponseMessage: goto FeedFragment")
-                } else {
-                    Log.e(TAG, "Login Failed")
-                    showToast(getString(R.string.login_auth_failed))
-                }
-            }
-        }
-    }
-
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

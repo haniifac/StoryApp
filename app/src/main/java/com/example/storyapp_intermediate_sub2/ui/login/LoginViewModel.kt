@@ -17,39 +17,6 @@ class LoginViewModel : ViewModel() {
     private var _isLoading = MutableLiveData<Boolean>()
     val isLoading get(): LiveData<Boolean> = _isLoading
 
-    var loginResponseMessage = MutableLiveData<String>()
-    var loginResult = MutableLiveData<LoginResult?>()
-
-    fun postLogin(email: String, password: String) {
-        _isLoading.value = true
-        ApiConfig().getApiService()
-            .login(email, password) // Bad Practice - Use Dependency Injection
-            .enqueue(object : Callback<LoginResponse> {
-                override fun onResponse(
-                    call: Call<LoginResponse>,
-                    response: Response<LoginResponse>
-                ) {
-                    _isLoading.value = false
-                    val responseBody = response.body()
-                    if (response.isSuccessful) {
-                        if (responseBody != null) {
-                            Log.e(TAG, "onResponse : isSuccessful ${responseBody.message}")
-                            loginResult.value = responseBody.loginResult
-                            loginResponseMessage.value = responseBody.message
-                        }
-                    } else {
-                        Log.e(TAG, "onResponse : isFailed ${response.message()}")
-                        loginResponseMessage.value = response.message()
-                    }
-                }
-
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    _isLoading.value = false
-                    Log.e(TAG, "onFailure: ${t.message}")
-                }
-            })
-    }
-
     fun pLogin(email: String, password: String): LiveData<LoginResponse?>{
         val loginResponse = MutableLiveData<LoginResponse?>()
         _isLoading.value = true
