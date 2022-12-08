@@ -43,7 +43,7 @@ class StoryRemoteMediator(
         try {
             val responseData = apiService.fetchPagingStories(page, state.config.pageSize,0)
             val endOfPaginationReached = responseData.listStory.isEmpty()
-            
+
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     database.remoteKeysDao().deleteRemoteKeys()
