@@ -47,10 +47,7 @@ class StoryActivity : AppCompatActivity() {
 //        subscribeStories()
 
         binding.feedRv.layoutManager = LinearLayoutManager(this)
-        Log.e(TAG, "getData")
         getData()
-
-
     }
 
     private fun getData() {
