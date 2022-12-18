@@ -45,7 +45,7 @@ class PhotoUploadViewModelTest {
     }
 
     @Test
-    fun `when File successfully uploaded`() = runTest {
+    fun `when File successfully uploaded and uploadImageResponse error should be false`() = runTest {
         val tempFile = folder.newFile("tempFile.jpeg")
 
         val expectedResponse = MutableLiveData<UploadImageResponse>()
@@ -65,7 +65,7 @@ class PhotoUploadViewModelTest {
     }
 
     @Test
-    fun `when Upload file failed`(): Unit = runTest {
+    fun `when Upload file failed  and uploadImageResponse error should be true`(): Unit = runTest {
         val tempFile = folder.newFile("tempFile.jpeg")
 
         val expectedResponse = MutableLiveData<UploadImageResponse>()
