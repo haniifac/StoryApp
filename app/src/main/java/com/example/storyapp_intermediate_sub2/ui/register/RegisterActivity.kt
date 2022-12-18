@@ -7,42 +7,45 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.databinding.ActivityRegisterBinding
+import com.example.storyapp_intermediate_sub2.util.ViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding : ActivityRegisterBinding
-    private val registerViewModel by viewModels<RegisterViewModel>()
+    private val registerViewModel : RegisterViewModel by viewModels{ ViewModelFactory(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        registerViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
-
-        registerViewModel.registerResponse.observe(this) {
-            if (!it) {
-                showToast(getString(R.string.register_success))
-                finish()
-            } else {
-                showToast(getString(R.string.register_failed))
-            }
-        }
-
         binding.btnRegister.setOnClickListener {
-            val inputCheck =
-                binding.edRegisterEmail.isEmailValid && binding.edRegisterPassword.isPassValid && binding.edRegisterName.isNameValid
-            val userName = binding.edRegisterName.text.toString().trim()
-            val userEmail = binding.edRegisterEmail.text.toString().trim()
-            val userPass = binding.edRegisterPassword.text.toString().trim()
-
-            if (inputCheck) {
-                registerViewModel.postRegister(userName, userEmail, userPass)
-            } else {
-                showToast(getString(R.string.login_button_validation))
-            }
+            handleRegister()
         }
+    }
+
+    private fun handleRegister(){
+        val userName = binding.edRegisterName.text.toString().trim()
+        val userEmail = binding.edRegisterEmail.text.toString().trim()
+        val userPass = binding.edRegisterPassword.text.toString().trim()
+
+        if (isInputValid()) {
+            showLoading(true)
+            registerViewModel.postRegister(userName, userEmail, userPass).observe(this){
+                showLoading(false)
+                if (!it){
+                    showToast(getString(R.string.register_success))
+                    finish()
+                }else{
+                    showToast(getString(R.string.register_failed))
+                }
+            }
+        } else {
+            showToast(getString(R.string.login_button_validation))
+        }
+    }
+
+    private fun isInputValid(): Boolean {
+        return binding.edRegisterEmail.isEmailValid && binding.edRegisterPassword.isPassValid && binding.edRegisterName.isNameValid
     }
 
     private fun showToast(message: String) {

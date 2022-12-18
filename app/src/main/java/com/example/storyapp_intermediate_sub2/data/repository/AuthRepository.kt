@@ -2,12 +2,9 @@ package com.example.storyapp_intermediate_sub2.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.storyapp_intermediate_sub2.data.local.database.StoryDatabase
 import com.example.storyapp_intermediate_sub2.data.remote.response.LoginResponse
-import com.example.storyapp_intermediate_sub2.data.remote.retrofit.ApiConfig
+import com.example.storyapp_intermediate_sub2.data.remote.response.RegisterResponse
 import com.example.storyapp_intermediate_sub2.data.remote.retrofit.ApiService
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,8 +14,7 @@ class AuthRepository(private val mDataStore: SessionManager, private val mApiSer
     fun postLogin(email: String, password: String): LiveData<LoginResponse?> {
         val loginResponse = MutableLiveData<LoginResponse?>()
 
-        ApiConfig().getApiService()
-            .login(email, password)
+        mApiService.login(email, password)
             .enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(
                     call: Call<LoginResponse>,
@@ -33,6 +29,38 @@ class AuthRepository(private val mDataStore: SessionManager, private val mApiSer
                 }
             })
         return loginResponse
+    }
+
+    fun postRegister(name: String, email: String, password: String): LiveData<Boolean> {
+        val registerResponse = MutableLiveData<Boolean>()
+
+        mApiService.register(name, email, password)
+            .enqueue(object : Callback<RegisterResponse> {
+                override fun onResponse(
+                    call: Call<RegisterResponse>,
+                    response: Response<RegisterResponse>
+                ) {
+                    val responseBody = response.body()
+                    if (response.isSuccessful) {
+                        if (responseBody != null) {
+//                            Log.e(RegisterViewModel.TAG, "onResponse : isSuccessful ${responseBody.message}")
+                            registerResponse.value = responseBody.error
+                        }
+                    } else {
+//                        Log.e(RegisterViewModel.TAG, "onResponse : isFailed ${response.message()}")
+                        if (responseBody != null) {
+                            registerResponse.value = responseBody.error
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+//                    Log.e(RegisterViewModel.TAG, "onFailure: ${t.message}")
+                    registerResponse.value = false
+                }
+            })
+
+        return registerResponse
     }
 
     suspend fun getToken(): String {

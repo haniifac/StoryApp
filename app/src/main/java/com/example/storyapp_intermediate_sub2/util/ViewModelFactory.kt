@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.storyapp_intermediate_sub2.di.Injection
 import com.example.storyapp_intermediate_sub2.ui.login.LoginViewModel
+import com.example.storyapp_intermediate_sub2.ui.register.RegisterViewModel
 import com.example.storyapp_intermediate_sub2.ui.story.StoryViewModel
 
 class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
@@ -15,6 +16,9 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
         }else if(modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return LoginViewModel(Injection.provideAuthRepository(context)) as T
+        }else if(modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return RegisterViewModel(Injection.provideAuthRepository(context)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
