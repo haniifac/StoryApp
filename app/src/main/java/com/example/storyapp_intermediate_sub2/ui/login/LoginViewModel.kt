@@ -1,57 +1,21 @@
 package com.example.storyapp_intermediate_sub2.ui.login
 
-import android.util.Log
-import androidx.lifecycle.*
-import com.example.storyapp_intermediate_sub2.data.remote.retrofit.ApiConfig
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.storyapp_intermediate_sub2.data.remote.response.LoginResponse
-import com.example.storyapp_intermediate_sub2.data.remote.response.LoginResult
-import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
+import com.example.storyapp_intermediate_sub2.data.repository.AuthRepository
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class LoginViewModel : ViewModel() {
-    private lateinit var sessionManager: SessionManager
+class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
-    private var _isLoading = MutableLiveData<Boolean>()
-    val isLoading get(): LiveData<Boolean> = _isLoading
+    fun pLogin(email: String, password: String): LiveData<LoginResponse?> = authRepository.postLogin(email, password)
 
-    fun pLogin(email: String, password: String): LiveData<LoginResponse?>{
-        val loginResponse = MutableLiveData<LoginResponse?>()
-        _isLoading.value = true
-
-        ApiConfig().getApiService()
-            .login(email, password) // Bad Practice - Use Dependency Injection
-            .enqueue(object : Callback<LoginResponse> {
-                override fun onResponse(
-                    call: Call<LoginResponse>,
-                    response: Response<LoginResponse>
-                ) {
-                    _isLoading.value = false
-                    val responseBody = response.body()
-                    loginResponse.value = responseBody
-                }
-
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    _isLoading.value = false
-                }
-            })
-        return loginResponse
-    }
-
-    fun putSession(sessionManager: SessionManager) {
-        this.sessionManager = sessionManager
-    }
-
-    suspend fun getToken(): String {
-        return sessionManager.getToken()
-    }
+    suspend fun getToken(): String = authRepository.getToken()
 
     fun saveSession(token: String, name: String) {
         viewModelScope.launch {
-            sessionManager.saveToken(token)
-            sessionManager.saveName(name)
+            authRepository.saveSession(token, name)
         }
     }
 
@@ -59,3 +23,5 @@ class LoginViewModel : ViewModel() {
         private const val TAG = "LoginViewModel"
     }
 }
+
+

@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.storyapp_intermediate_sub2.data.local.database.StoryDatabase
 import com.example.storyapp_intermediate_sub2.data.remote.retrofit.ApiConfig
+import com.example.storyapp_intermediate_sub2.data.repository.AuthRepository
 import com.example.storyapp_intermediate_sub2.data.repository.StoryRepository
 import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import kotlinx.coroutines.runBlocking
@@ -13,7 +14,7 @@ import kotlinx.coroutines.runBlocking
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
 
 object Injection {
-    fun provideRepository(context: Context): StoryRepository {
+    fun provideStoryRepository(context: Context): StoryRepository {
         val api = ApiConfig()
         val database = StoryDatabase.getDatabase(context)
         val myDataStore = SessionManager.getInstance(context.dataStore)
@@ -21,5 +22,11 @@ object Injection {
             myDataStore.getToken()
         })
         return StoryRepository(myDataStore, api.getApiService(), database)
+    }
+
+    fun provideAuthRepository(context: Context): AuthRepository {
+        val api = ApiConfig()
+        val myDataStore = SessionManager.getInstance(context.dataStore)
+        return AuthRepository(myDataStore, api.getApiService())
     }
 }
