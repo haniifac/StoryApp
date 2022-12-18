@@ -8,12 +8,10 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.example.storyapp_intermediate_sub2.data.adapter.StoryRecyclerAdapter
 import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
-import com.example.storyapp_intermediate_sub2.data.repository.AuthRepository
 import com.example.storyapp_intermediate_sub2.data.repository.StoryRepository
-import com.example.storyapp_intermediate_sub2.ui.login.LoginViewModel
 import com.example.storyapp_intermediate_sub2.util.Dummy
 import com.example.storyapp_intermediate_sub2.util.PagedTestDataSource
-import com.example.storyapp_intermediate_sub2.utils.CoroutinesTestRule
+import com.example.storyapp_intermediate_sub2.utils.MainDispatcherRule
 import com.example.storyapp_intermediate_sub2.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -35,7 +33,7 @@ class StoryViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
     @get:Rule
-    var coroutinesTestRule = CoroutinesTestRule()
+    var mainDispatcherRule = MainDispatcherRule()
 
     @Mock
     private lateinit var storyRepository: StoryRepository
@@ -62,8 +60,8 @@ class StoryViewModelTest {
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryRecyclerAdapter.DIFF_CALLBACK,
             updateCallback = noopListUpdateCallback,
-            mainDispatcher = coroutinesTestRule.testDispatcher,
-            workerDispatcher = coroutinesTestRule.testDispatcher
+            mainDispatcher = mainDispatcherRule.testDispatcher,
+            workerDispatcher = mainDispatcherRule.testDispatcher
         )
         differ.submitData(actualStories)
 

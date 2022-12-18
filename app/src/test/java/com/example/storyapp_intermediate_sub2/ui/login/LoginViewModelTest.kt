@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.storyapp_intermediate_sub2.data.remote.response.LoginResponse
 import com.example.storyapp_intermediate_sub2.data.repository.AuthRepository
 import com.example.storyapp_intermediate_sub2.util.Dummy
-import com.example.storyapp_intermediate_sub2.utils.CoroutinesTestRule
+import com.example.storyapp_intermediate_sub2.utils.MainDispatcherRule
 import com.example.storyapp_intermediate_sub2.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -27,7 +27,7 @@ class LoginViewModelTest{
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
     @get:Rule
-    var coroutinesTestRule = CoroutinesTestRule()
+    var mainDispatcherRule = MainDispatcherRule()
 
     @Mock
     private lateinit var authRepository: AuthRepository
