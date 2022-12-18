@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
 import com.example.storyapp_intermediate_sub2.data.remote.response.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 object Dummy {
     fun generateDummyFalseLoginResponse(): LoginResponse {
@@ -87,5 +90,28 @@ object Dummy {
         }
 
         return StoriesResponse(true, "Stories fetched successfully", listStories)
+    }
+
+    fun generateDummyMultipartFile(): MultipartBody.Part {
+        val dummyText = "text"
+        return MultipartBody.Part.create(dummyText.toRequestBody())
+    }
+
+    fun generateDummyDescription(): String {
+        return "description"
+    }
+
+    fun generateDummyFileUploadResponseFalse(): UploadImageResponse {
+        return UploadImageResponse(
+            error = false,
+            message = "success"
+        )
+    }
+
+    fun generateDummyFileUploadResponseTrue(): UploadImageResponse {
+        return UploadImageResponse(
+            error = true,
+            message = "\"description\" is required"
+        )
     }
 }
