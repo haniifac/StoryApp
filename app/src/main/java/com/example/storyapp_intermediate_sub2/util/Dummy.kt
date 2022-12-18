@@ -1,5 +1,6 @@
 package com.example.storyapp_intermediate_sub2.util
 
+import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
 import com.example.storyapp_intermediate_sub2.data.remote.response.*
 
 object Dummy {
@@ -27,13 +28,11 @@ object Dummy {
 
     fun generateDummyFalseRegisterResponse() : RegisterResponse = RegisterResponse(false, "user Created")
 
-    fun generateDummyStoriesResponse(): StoriesResponse {
-        val error = false
-        val message = "Stories fetched successfully"
-        val listStories = mutableListOf<ListStoryItem>()
+    fun generateDummyStoryList(): List<StoryEntity> {
+        val listStories = mutableListOf<StoryEntity>()
 
         for (i in 0 until 5) {
-            val story = ListStoryItem(
+            val story = StoryEntity(
                 id = "story-kI4cGQdyrEBY8XAk",
                 photoUrl = "https://story-api.dicoding.dev/images/stories/photos-1670486409281_nRvy5kcH.jpg",
                 createdAt = "2022-12-08T08:00:09.282Z",
@@ -45,6 +44,6 @@ object Dummy {
 
             listStories.add(story)
         }
-        return StoriesResponse(error, message, listStories)
+        return listStories
     }
 }
