@@ -1,12 +1,9 @@
 package com.example.storyapp_intermediate_sub2.util
 
-import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
-import com.example.storyapp_intermediate_sub2.data.remote.response.LoginResponse
-import com.example.storyapp_intermediate_sub2.data.remote.response.LoginResult
-import com.example.storyapp_intermediate_sub2.data.remote.response.StoriesResponse
+import com.example.storyapp_intermediate_sub2.data.remote.response.*
 
 object Dummy {
-    fun generateDummyLoginResponse(): LoginResponse {
+    fun generateDummyFalseLoginResponse(): LoginResponse {
         val loginResult = LoginResult(
             userId = "user-vRpFuVHiG4NkADH2",
             name = "synerr",
@@ -15,6 +12,20 @@ object Dummy {
 
         return LoginResponse(false, "success", loginResult)
     }
+
+    fun generateDummyTrueLoginResponse(): LoginResponse {
+        val loginResult = LoginResult(
+            userId = "user-vRpFuVHiG4NkADH2",
+            name = "synerr",
+            token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXZScEZ1VkhpRzROa0FESDIiLCJpYXQiOjE2NzA0OTI0NjJ9.fWHnJSD5qWTaR7bCZn1Gsa-eieXnQ1i7gswg5OgFaLY"
+        )
+
+        return LoginResponse(true, "success", loginResult)
+    }
+
+    fun generateDummyTrueRegisterResponse() : RegisterResponse = RegisterResponse(true, "Email is already taken")
+
+    fun generateDummyFalseRegisterResponse() : RegisterResponse = RegisterResponse(false, "user Created")
 
     fun generateDummyStoriesResponse(): StoriesResponse {
         val error = false
