@@ -5,6 +5,9 @@
     <string name="appwidget_text">Stories</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
+    <string name="empty_text">NO DATA</string>
+    <string name="not_yet_login">Login first</string>
+    <string name="desc_cannot_blank">Description cannot be blank</string>
 
     <!--    App         -->
     <string name="username">username</string>
@@ -41,9 +44,7 @@
     <string name="could_not_get_permission">Could not get permission</string>
     <string name="upload_success">Photo successfully uploaded</string>
     <string name="upload_failed">Photo failed to upload</string>
-    <string name="empty_text">empty text</string>
-    <string name="not_yet_login">Login first</string>
-    <string name="desc_cannot_blank">Description cannot be blank</string>
+
     <string name="show_map">Show Map</string>
     <string name="story_map">Story Map</string>
     <string name="normal_type">Normal</string>

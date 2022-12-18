@@ -37,6 +37,15 @@
     <string name="upload_failed">Foto gagal di unggah</string>
     <string name="empty_text">teks kosong</string>
 
+    <string name="show_map">Tampilkan Peta</string>
+    <string name="story_map">Peta cerita</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satelit</string>
+    <string name="terrain_type">Dataran</string>
+    <string name="hybrid_type">Campuran</string>
+    <string name="enable_current_location">Sertakan lokasi pada cerita</string>
+    <string name="retry">Ulang</string>
+
     <string name="appwidget_text">Cerita</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>

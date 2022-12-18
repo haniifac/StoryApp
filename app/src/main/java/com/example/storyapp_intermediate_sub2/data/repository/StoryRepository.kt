@@ -28,6 +28,7 @@ import retrofit2.Response
 import java.io.File
 
 class StoryRepository(private val mDataStore: SessionManager, private val mApiService: ApiService, private val mDatabase: StoryDatabase) {
+    fun getApiService() = mApiService
 
     fun fetchPagingStory(): LiveData<PagingData<StoryEntity>> {
         @OptIn(ExperimentalPagingApi::class)
