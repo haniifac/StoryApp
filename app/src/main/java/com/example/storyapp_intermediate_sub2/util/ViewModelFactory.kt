@@ -8,6 +8,7 @@ import com.example.storyapp_intermediate_sub2.ui.login.LoginViewModel
 import com.example.storyapp_intermediate_sub2.ui.map.MapsViewModel
 import com.example.storyapp_intermediate_sub2.ui.register.RegisterViewModel
 import com.example.storyapp_intermediate_sub2.ui.story.StoryViewModel
+import com.example.storyapp_intermediate_sub2.ui.upload.PhotoUploadViewModel
 
 class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -23,6 +24,9 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.Factory
         }else if(modelClass.isAssignableFrom(MapsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return MapsViewModel(Injection.provideStoryRepository(context)) as T
+        }else if(modelClass.isAssignableFrom(PhotoUploadViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return PhotoUploadViewModel(Injection.provideStoryRepository(context)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

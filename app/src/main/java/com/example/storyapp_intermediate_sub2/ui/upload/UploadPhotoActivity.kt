@@ -18,24 +18,22 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import com.example.storyapp_intermediate_sub2.R
-import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.databinding.ActivityUploadPhotoBinding
 import com.example.storyapp_intermediate_sub2.ui.camerax.CameraActivity
+import com.example.storyapp_intermediate_sub2.ui.map.MapsActivity
+import com.example.storyapp_intermediate_sub2.util.ViewModelFactory
 import com.example.storyapp_intermediate_sub2.util.bitmapToFile
 import com.example.storyapp_intermediate_sub2.util.rotateBitmap
 import com.example.storyapp_intermediate_sub2.util.uriToFile
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import java.io.File
 
 class UploadPhotoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadPhotoBinding
-    private val uploadPhotoViewModel by viewModels<PhotoUploadViewModel>()
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
+    private val uploadPhotoViewModel: PhotoUploadViewModel by viewModels { ViewModelFactory(this)}
 
     private var getFile: File? = null
 
@@ -49,11 +47,7 @@ class UploadPhotoActivity : AppCompatActivity() {
         binding = ActivityUploadPhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val userSession = SessionManager.getInstance(dataStore)
-        uploadPhotoViewModel.putSession(userSession)
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
 
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -62,9 +56,6 @@ class UploadPhotoActivity : AppCompatActivity() {
                 REQUEST_CODE_PERMISSIONS
             )
         }
-
-        subscribeLoading()
-        subscribeUploadImage()
 
         binding.addBtnCameraX.setOnClickListener { startCameraX() }
         binding.addBtnGallery.setOnClickListener { startGallery() }
@@ -77,7 +68,7 @@ class UploadPhotoActivity : AppCompatActivity() {
                 }else if(lastLocation == null && checkGpsStatus()){
                     thisButton.isChecked = false
                 }else{
-                    showGpsAlertDialog()
+                    showToast("GPS is disabled, please enable it.")
                     thisButton.isChecked = false
                 }
             }
@@ -133,6 +124,9 @@ class UploadPhotoActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         lastLocation = LatLng(lat,lon)
+                    }else{
+                        showToast("Please open map and get current location first.")
+                        binding.swLocation.isChecked = false
                     }
                 }
                 .addOnFailureListener {
@@ -141,11 +135,6 @@ class UploadPhotoActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-        }else{
-            Toast.makeText(
-                this, "GPS is disabled",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 
@@ -154,50 +143,24 @@ class UploadPhotoActivity : AppCompatActivity() {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
-    private fun startGpsIntent(){
-        if (!checkGpsStatus()) {
-            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+
+    private fun uploadImage() {
+        val desc = binding.addEdDesc.text.toString().trim()
+        val currLocation = lastLocation
+
+        if (desc.isBlank()) {
+            binding.addEdDesc.error = getString(R.string.desc_cannot_blank)
+        }else if (getFile != null) {
+            subscribeUploadImage(getFile!!, desc, currLocation)
+        }else {
+            showToast(getString(R.string.choose_photo_first))
         }
     }
 
-    private fun showGpsAlertDialog(){
-        val dialogBuilder = AlertDialog.Builder(this)
-
-        // set message of alert dialog
-        dialogBuilder.setMessage("GPS is Disabled, do you want to enable it?")
-            // if the dialog is cancelable
-            .setCancelable(false)
-            // positive button text and action
-            .setPositiveButton("Turn on GPS", DialogInterface.OnClickListener { dialog, id ->
-//                finish()
-                startGpsIntent()
-            })
-            // negative button text and action
-            .setNegativeButton("No", DialogInterface.OnClickListener {
-                    dialog, id -> dialog.cancel()
-            })
-
-        // create dialog box
-        val alert = dialogBuilder.create()
-        // set title for alert dialog box
-        alert.setTitle("Turn on GPS")
-        // show alert dialog
-        alert.show()
-    }
-
-    private fun startCameraX() {
-        val intent = Intent(this, CameraActivity::class.java)
-        launcherIntentCameraX.launch(intent)
-    }
-
-    private fun subscribeLoading() {
-        uploadPhotoViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
-    }
-
-    private fun subscribeUploadImage() {
-        uploadPhotoViewModel.uploadResponse.observe(this) {
+    private fun subscribeUploadImage(getFile: File, desc: String, location : LatLng?) {
+        showLoading(true)
+        uploadPhotoViewModel.uploadImage(getFile, desc, location).observe(this) {
+            showLoading(false)
             if (!it.error) {
                 showToast(getString(R.string.upload_success))
                 finish()
@@ -207,18 +170,9 @@ class UploadPhotoActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage() {
-        val token = uploadPhotoViewModel.getToken()
-        val desc = binding.addEdDesc.text.toString().trim()
-        var currLocation = lastLocation
-
-        if (desc.isBlank()) {
-            binding.addEdDesc.error = getString(R.string.desc_cannot_blank)
-        }else if (getFile != null) {
-            uploadPhotoViewModel.uploadImage(getFile!!, desc, token, currLocation)
-        }else {
-            showToast(getString(R.string.choose_photo_first))
-        }
+    private fun startCameraX() {
+        val intent = Intent(this, CameraActivity::class.java)
+        launcherIntentCameraX.launch(intent)
     }
 
     private fun startGallery() {
