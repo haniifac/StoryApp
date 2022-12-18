@@ -49,7 +49,7 @@ class StoryViewModelTest {
     }
 
     @Test
-    fun `Get all stories successfully`() = runTest {
+    fun `stories successfully fetched`() = runTest {
         val data = PagedTestDataSource.snapshot(dummyStories)
 
         val stories = MutableLiveData<PagingData<StoryEntity>>()
@@ -72,6 +72,12 @@ class StoryViewModelTest {
         Mockito.verify(storyRepository).fetchPagingStory()
         Assert.assertNotNull(differ.snapshot())
         Assert.assertEquals(dummyStories.size, differ.snapshot().size)
+    }
+
+    @Test
+    fun `when logout clear session token`() = runTest{
+        storyViewModel.clearSession()
+        Mockito.verify(storyRepository).clearSession()
     }
 
 
