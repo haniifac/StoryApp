@@ -1,17 +1,16 @@
 package com.example.storyapp_intermediate_sub2.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.example.storyapp_intermediate_sub2.data.local.database.StoryDatabase
 import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
 import com.example.storyapp_intermediate_sub2.data.remote.mediator.StoryRemoteMediator
 import com.example.storyapp_intermediate_sub2.data.remote.retrofit.ApiService
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-
-
 class StoryRepository(private val mDataStore: SessionManager, private val mApiService: ApiService, private val mDatabase: StoryDatabase) {
-    fun getService() = mApiService
 
     fun fetchPagingStory(): LiveData<PagingData<StoryEntity>> {
         @OptIn(ExperimentalPagingApi::class)
@@ -21,7 +20,6 @@ class StoryRepository(private val mDataStore: SessionManager, private val mApiSe
             ),
             remoteMediator = StoryRemoteMediator(mApiService, mDatabase),
             pagingSourceFactory = {
-//                QuotePagingSource(apiService)
                 mDatabase.storyDao().getAllStories()
             }
         ).liveData
@@ -32,4 +30,6 @@ class StoryRepository(private val mDataStore: SessionManager, private val mApiSe
             mDataStore.getToken()
         }
     }
+
+    suspend fun clearSession() = mDataStore.clearSession()
 }

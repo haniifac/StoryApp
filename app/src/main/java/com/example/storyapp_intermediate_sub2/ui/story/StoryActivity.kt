@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
@@ -27,12 +28,13 @@ import com.example.storyapp_intermediate_sub2.ui.login.MainActivity
 import com.example.storyapp_intermediate_sub2.ui.map.MapsActivity
 import com.example.storyapp_intermediate_sub2.ui.upload.UploadPhotoActivity
 import com.example.storyapp_intermediate_sub2.util.ViewModelFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStoryBinding
     private val storyViewModel: StoryViewModel by viewModels { ViewModelFactory(this)}
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
-    private lateinit var userSession : SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +42,7 @@ class StoryActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.story_home)
         setContentView(binding.root)
 
-        userSession = this.let { SessionManager.getInstance(it.dataStore) }
-
-        storyViewModel.putSession(userSession)
-
-        subscribeLoading()
-
+        // untuk nampilin recyclerview
         binding.feedRv.layoutManager = LinearLayoutManager(this)
     }
 
@@ -70,8 +67,9 @@ class StoryActivity : AppCompatActivity() {
                 Log.e(TAG,"Goto MapsActivity")
             }
             R.id.menu_logout -> {
-                storyViewModel.clearSession(userSession)
+                storyViewModel.clearSession()
                 Log.e(TAG, "Session deleted")
+
                 startLoginActivity()
                 Log.e(TAG, "Go to loginFragment")
             }
@@ -94,20 +92,12 @@ class StoryActivity : AppCompatActivity() {
             }
         })
 
+        binding.feedRv.layoutManager = LinearLayoutManager(this)
+
 
         storyViewModel.getAllStories().observe(this) {
             adapter.submitData(lifecycle, it)
         }
-    }
-
-    private fun subscribeLoading() {
-        storyViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.feedProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun showSelectedStory(story: StoryEntity) {
