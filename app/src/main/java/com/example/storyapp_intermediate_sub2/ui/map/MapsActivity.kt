@@ -1,23 +1,20 @@
 package com.example.storyapp_intermediate_sub2.ui.map
 
-import com.example.storyapp_intermediate_sub2.R
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
+import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
-import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
 import com.example.storyapp_intermediate_sub2.databinding.ActivityMapsBinding
-
+import com.example.storyapp_intermediate_sub2.util.ViewModelFactory
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -28,9 +25,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private val mapsViewModel by viewModels<MapsViewModel>()
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
-    private lateinit var userSession : SessionManager
+    private val mapsViewModel: MapsViewModel by viewModels{ViewModelFactory(this)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +36,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        userSession = this.let { SessionManager.getInstance(it.dataStore) }
-        mapsViewModel.putSession(userSession)
-
-        subscribeStories()
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -56,6 +45,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
 
+        showIndonesia()
         getMyLocation()
         fetchStory()
     }
@@ -96,6 +86,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun showIndonesia(){
+        val indonesia = LatLng(0.7893,113.9213)
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(indonesia,4f))
+    }
+
     private fun getMyLocation() {
         if (ContextCompat.checkSelfPermission(this.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         ) {
@@ -106,20 +101,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun fetchStory() {
-        mapsViewModel.getToken().run {
-            mapsViewModel.loadFeed(this)
-        }
-    }
-
-    private fun subscribeStories() {
-        mapsViewModel.storiesResponse.observe(this) { storyResponse ->
-            if (storyResponse != null) {
-                storyResponse.listStory?.let { storyItem -> addMapMarker(storyItem) }
+        mapsViewModel.loadFeed().observe(this){
+            if (it != null){
+                addMapMarker(it.listStory)
             }
         }
     }
 
     private fun addMapMarker(stories: List<ListStoryItem?>){
+//        Log.e(TAG, stories.size.toString())
         for (item in stories){
             if (item != null) {
                 if (item.lat != null && item.lon != null) {
@@ -135,5 +125,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-
+    companion object{
+        private const val TAG = "MapsActivity"
+    }
 }
