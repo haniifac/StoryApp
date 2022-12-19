@@ -1,41 +1,28 @@
 package com.example.storyapp_intermediate_sub2.ui.story
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityOptionsCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp_intermediate_sub2.R
-import com.example.storyapp_intermediate_sub2.data.remote.response.ListStoryItem
-import com.example.storyapp_intermediate_sub2.data.repository.SessionManager
-import com.example.storyapp_intermediate_sub2.databinding.ActivityStoryBinding
-import com.example.storyapp_intermediate_sub2.data.adapter.FeedRecyclerAdapter
 import com.example.storyapp_intermediate_sub2.data.adapter.LoadingStateAdapter
 import com.example.storyapp_intermediate_sub2.data.adapter.StoryRecyclerAdapter
 import com.example.storyapp_intermediate_sub2.data.local.entity.StoryEntity
-import com.example.storyapp_intermediate_sub2.ui.detailstory.DetailStoryActivity
+import com.example.storyapp_intermediate_sub2.databinding.ActivityStoryBinding
 import com.example.storyapp_intermediate_sub2.ui.login.MainActivity
 import com.example.storyapp_intermediate_sub2.ui.map.MapsActivity
 import com.example.storyapp_intermediate_sub2.ui.upload.UploadPhotoActivity
 import com.example.storyapp_intermediate_sub2.util.ViewModelFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStoryBinding
     private val storyViewModel: StoryViewModel by viewModels { ViewModelFactory(this)}
+    private lateinit var adapterRv : StoryRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +31,16 @@ class StoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // untuk nampilin recyclerview
-        binding.feedRv.layoutManager = LinearLayoutManager(this)
+        setStoryRecyclerView()
+
+        subscribeGetAllStories()
+
     }
 
     override fun onResume() {
         super.onResume()
-        getData()
+        // subscriber ditaro di sini biar bisa get new story pas balik dari detailstory
+//        subscribeGetAllStories()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -78,19 +69,29 @@ class StoryActivity : AppCompatActivity() {
         return true
     }
 
-    private fun getData() {
-        val adapter = StoryRecyclerAdapter()
-        binding.feedRv.adapter = adapter.withLoadStateFooter(
-            footer = LoadingStateAdapter {
-                adapter.retry()
-            }
-        )
-
+    private fun setStoryRecyclerView(){
         binding.feedRv.layoutManager = LinearLayoutManager(this)
 
-        storyViewModel.getAllStories().observe(this) {
-            adapter.submitData(lifecycle, it)
+        adapterRv = StoryRecyclerAdapter()
+        binding.feedRv.adapter = adapterRv.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapterRv.retry()
+            }
+        )
+    }
+
+    private fun subscribeGetAllStories(){
+        storyViewModel.getAllStories().observe(this){
+            getNewestData(it)
         }
+    }
+
+    private fun getNewestData(story : PagingData<StoryEntity>){
+        val feedRvState = binding.feedRv.layoutManager?.onSaveInstanceState()
+
+        adapterRv.submitData(lifecycle, story)
+
+        binding.feedRv.layoutManager?.onRestoreInstanceState(feedRvState)
     }
 
     private fun startUploadActivity(){
