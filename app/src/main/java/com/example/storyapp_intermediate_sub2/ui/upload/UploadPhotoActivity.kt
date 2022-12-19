@@ -22,6 +22,7 @@ import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.databinding.ActivityUploadPhotoBinding
 import com.example.storyapp_intermediate_sub2.ui.camerax.CameraActivity
 import com.example.storyapp_intermediate_sub2.ui.map.MapsActivity
+import com.example.storyapp_intermediate_sub2.ui.story.StoryActivity
 import com.example.storyapp_intermediate_sub2.util.ViewModelFactory
 import com.example.storyapp_intermediate_sub2.util.bitmapToFile
 import com.example.storyapp_intermediate_sub2.util.rotateBitmap
@@ -163,11 +164,17 @@ class UploadPhotoActivity : AppCompatActivity() {
             showLoading(false)
             if (!it.error) {
                 showToast(getString(R.string.upload_success))
-                finish()
+                startStoryActivity()
             } else {
                 showToast(getString(R.string.upload_failed))
             }
         }
+    }
+
+    private fun startStoryActivity(){
+        startActivity(Intent(this, StoryActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        })
     }
 
     private fun startCameraX() {
