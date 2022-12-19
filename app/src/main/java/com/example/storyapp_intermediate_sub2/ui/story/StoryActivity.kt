@@ -86,27 +86,11 @@ class StoryActivity : AppCompatActivity() {
             }
         )
 
-        adapter.setOnItemClickCallback(object : StoryRecyclerAdapter.OnItemClickCallback{
-            override fun onItemClicked(story: StoryEntity, holder: StoryRecyclerAdapter.ViewHolder
-            ) {
-                showSelectedStory(story)
-            }
-        })
-
         binding.feedRv.layoutManager = LinearLayoutManager(this)
-
 
         storyViewModel.getAllStories().observe(this) {
             adapter.submitData(lifecycle, it)
         }
-    }
-
-    private fun showSelectedStory(story: StoryEntity) {
-        startActivity(Intent(this, DetailStoryActivity::class.java).apply {
-            putExtra(EXTRA_NAME,story.name.toString())
-            putExtra(EXTRA_IMG_URL,story.photoUrl.toString())
-            putExtra(EXTRA_DESCRIPTION,story.description.toString())
-        }, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
     }
 
     private fun startUploadActivity(){
