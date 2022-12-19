@@ -58,7 +58,6 @@ class PhotoUploadViewModelTest {
         val actualResponse =
             photoUploadViewModel.uploadImage(tempFile, dummyDescription, null).getOrAwaitValue()
 
-        Assert.assertEquals(expectedResponse.value!!.message, actualResponse.message)
         Assert.assertFalse(actualResponse.error)
 
         Mockito.verify(storyRepository).uploadImage(tempFile, dummyDescription, null)
@@ -78,7 +77,6 @@ class PhotoUploadViewModelTest {
         val actualResponse =
             photoUploadViewModel.uploadImage(tempFile, dummyDescription, null).getOrAwaitValue()
 
-        Assert.assertEquals(expectedResponse.value!!.message, actualResponse.message)
         Assert.assertTrue(actualResponse.error)
 
         Mockito.verify(storyRepository).uploadImage(tempFile, dummyDescription, null)

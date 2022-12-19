@@ -44,7 +44,6 @@ class RegisterViewModelTest {
         val actualResponse = registerViewModel.postRegister(dummyName, dummyEmail, dummyPassword).getOrAwaitValue()
 
         Assert.assertFalse(actualResponse)
-        Assert.assertEquals(expectedResponse.value, actualResponse)
 
         Mockito.verify(authRepository).postRegister(dummyName, dummyEmail, dummyPassword)
     }
@@ -59,7 +58,6 @@ class RegisterViewModelTest {
         val actualResponse = registerViewModel.postRegister(dummyName, dummyEmail, dummyPassword).getOrAwaitValue()
 
         Assert.assertTrue(actualResponse)
-        Assert.assertEquals(expectedResponse.value, actualResponse)
 
         Mockito.verify(authRepository).postRegister(dummyName, dummyEmail, dummyPassword)
     }
