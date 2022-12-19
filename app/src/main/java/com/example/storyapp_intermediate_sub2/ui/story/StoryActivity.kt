@@ -9,6 +9,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.example.storyapp_intermediate_sub2.R
 import com.example.storyapp_intermediate_sub2.data.adapter.LoadingStateAdapter
 import com.example.storyapp_intermediate_sub2.data.adapter.StoryRecyclerAdapter
@@ -19,10 +21,12 @@ import com.example.storyapp_intermediate_sub2.ui.map.MapsActivity
 import com.example.storyapp_intermediate_sub2.ui.upload.UploadPhotoActivity
 import com.example.storyapp_intermediate_sub2.util.ViewModelFactory
 
+
 class StoryActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStoryBinding
     private val storyViewModel: StoryViewModel by viewModels { ViewModelFactory(this)}
     private lateinit var adapterRv : StoryRecyclerAdapter
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +62,11 @@ class StoryActivity : AppCompatActivity() {
                 startMapsActivity()
                 Log.e(TAG,"Goto MapsActivity")
             }
+            R.id.menu_refresh_story -> {
+                subscribeGetAllStories()
+                smoothScrollToTop()
+                Log.e(TAG,"Refresh story adapter")
+            }
             R.id.menu_logout -> {
                 storyViewModel.clearSession()
                 Log.e(TAG, "Session deleted")
@@ -70,7 +79,8 @@ class StoryActivity : AppCompatActivity() {
     }
 
     private fun setStoryRecyclerView(){
-        binding.feedRv.layoutManager = LinearLayoutManager(this)
+        linearLayoutManager = LinearLayoutManager(this)
+        binding.feedRv.layoutManager = linearLayoutManager
 
         adapterRv = StoryRecyclerAdapter()
         binding.feedRv.adapter = adapterRv.withLoadStateFooter(
@@ -84,6 +94,16 @@ class StoryActivity : AppCompatActivity() {
         storyViewModel.getAllStories().observe(this){
             getNewestData(it)
         }
+    }
+
+    private fun smoothScrollToTop(){
+        var smoothScroller: SmoothScroller = object : LinearSmoothScroller(this) {
+            override fun getVerticalSnapPreference(): Int {
+                return SNAP_TO_START
+            }
+        }
+        smoothScroller.targetPosition = 0
+        linearLayoutManager.startSmoothScroll(smoothScroller)
     }
 
     private fun getNewestData(story : PagingData<StoryEntity>){

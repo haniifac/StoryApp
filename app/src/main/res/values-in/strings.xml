@@ -36,6 +36,7 @@
     <string name="upload_success">Foto berhasil di unggah</string>
     <string name="upload_failed">Foto gagal di unggah</string>
     <string name="empty_text">teks kosong</string>
+    <string name="refresh_story">Refresh</string>
 
     <string name="show_map">Tampilkan Peta</string>
     <string name="story_map">Peta cerita</string>

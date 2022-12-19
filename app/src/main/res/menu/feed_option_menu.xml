@@ -14,6 +14,11 @@
             android:icon="@drawable/ic_outline_place_24"
             app:showAsAction="ifRoom" />
         <item
+            android:id="@+id/menu_refresh_story"
+            android:title="@string/refresh_story"
+            android:icon="@drawable/ic_baseline_refresh_24"
+            app:showAsAction="ifRoom" />
+        <item
             android:id="@+id/menu_logout"
             android:title="@string/logout"
             app:showAsAction="never" />
