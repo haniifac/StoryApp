@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -105,7 +106,7 @@ class StoryActivity : AppCompatActivity() {
             putExtra(EXTRA_NAME,story.name.toString())
             putExtra(EXTRA_IMG_URL,story.photoUrl.toString())
             putExtra(EXTRA_DESCRIPTION,story.description.toString())
-        })
+        }, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
     }
 
     private fun startUploadActivity(){
